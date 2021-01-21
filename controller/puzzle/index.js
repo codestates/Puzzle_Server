@@ -1,13 +1,6 @@
-import read from "../comment/read"
-import create from "../home/create"
-import remove from "../home/remove"
-import update from "../home/update"
-
-const puzzleController = {
-    create: create,
-    read: read,
-    update: update,
-    remove: remove,
+module.exports = {
+    create: require('./read'),
+    read: require('./read'),
+    update: require('./update'),
+    remove: require('./remove'),
 }
-
-export default puzzleController

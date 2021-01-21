@@ -1,13 +1,7 @@
-import create from "./create";
-import remove from "./remove";
-import update from "./update";
-import read from "./read"
 
-const commentController = {
-    create: create,
-    read: read,
-    update: update,
-    remove: remove,
+module.exports = {
+    create: require('./create'),
+    read: require('./read'),
+    update: require('./update'),
+    remove: require('./remove'),
 }
-
-export default commentController

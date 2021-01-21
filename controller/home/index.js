@@ -1,18 +1,7 @@
-
-import home from "./home";
-import search from "./search";
-import create from "./create";
-import update from "./update";
-import remove from "./remove";
-
-
-const homeController = {
-    home: home,
-    search: search,
-    create: create,
-    update: update,
-    remove: remove,
-
+module.exports = {
+    home: require('./home'),
+    search: require('./search'),
+    create: require('./create'),
+    update: require('./update'),
+    remove: require('./remove'),
 }
-
-export default homeController
