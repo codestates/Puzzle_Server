@@ -1,5 +1,5 @@
-import express from 'express'
-import controller from '../controller'
+const express = require('express')
+const controller = require('../controller')
 
 const puzzleRouter = express.Router()
 
@@ -9,4 +9,4 @@ puzzleRouter.patch('/update', controller.puzzle.update)
 puzzleRouter.delete('/delete', controller.puzzle.remove)
 
 
-export default puzzleRouter
+module.exports = puzzleRouter

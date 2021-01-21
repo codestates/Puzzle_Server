@@ -1,6 +1,5 @@
-import express from 'express'
-import controller from '../controller'
-
+const express = require('express')
+const controller = require('../controller')
 const projectRouter = express.Router();
 
 projectRouter.get('/:id', controller.project.id)
@@ -9,4 +8,4 @@ projectRouter.post('/invite', controller.project.invite)
 projectRouter.post('/setpuzzle', controller.project.setpuzzle)
 projectRouter.patch('/update', controller.project.update)
 
-export default projectRouter
+module.exports = projectRouter
