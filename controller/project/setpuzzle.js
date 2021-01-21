@@ -2,6 +2,6 @@ const {
     generateAccessToken,
     generateRefreshToken
 } = require('../tokenFunctions')
-const { user } = require('../../models')
+const { puzzle } = require('../../models')
 
 module.exports = () => { }
