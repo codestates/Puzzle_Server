@@ -1,11 +1,11 @@
 const express = require('express')
-const controller = require('../controller')
+const { homeController } = require('../controller')
 const homeRouter = express.Router();
 
-homeRouter.get('/', controller.home.home)
-homeRouter.post('/serach', controller.home.search)
-homeRouter.post('/create', controller.home.create)
-homeRouter.patch('/update', controller.home.update)
-homeRouter.delete('/delete', controller.home.remove)
+homeRouter.get('/', homeController.home)
+homeRouter.post('/serach', homeController.search)
+homeRouter.post('/create', homeController.create)
+homeRouter.patch('/update', homeController.update)
+homeRouter.delete('/delete', homeController.remove)
 
 module.exports = homeRouter
