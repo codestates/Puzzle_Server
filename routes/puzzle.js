@@ -1,12 +1,12 @@
 const express = require('express')
-const controller = require('../controller')
+const { puzzleController } = require('../controller')
 
 const puzzleRouter = express.Router()
 
-puzzleRouter.post('/create', controller.puzzle.create)
-puzzleRouter.get('/read/:id', controller.puzzle.read)
-puzzleRouter.patch('/update', controller.puzzle.update)
-puzzleRouter.delete('/delete', controller.puzzle.remove)
+puzzleRouter.post('/create', puzzleController.create)
+puzzleRouter.get('/read/:id', puzzleController.read)
+puzzleRouter.patch('/update', puzzleController.update)
+puzzleRouter.delete('/delete', puzzleController.remove)
 
 
 module.exports = puzzleRouter

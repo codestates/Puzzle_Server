@@ -1,11 +1,11 @@
 const express = require('express')
-const controller = require('../controller')
+const { commentController } = require('../controller')
 const commentRouter = express.Router();
 
-commentRouter.post('/create', controller.comment.create)
-commentRouter.get('/read', controller.comment.read)
-commentRouter.patch('/update', controller.comment.update)
-commentRouter.delete('/delete', controller.comment.remove)
+commentRouter.post('/create', commentController.create)
+commentRouter.get('/read', commentController.read)
+commentRouter.patch('/update', commentController.update)
+commentRouter.delete('/delete', commentController.remove)
 
 
 
