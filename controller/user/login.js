@@ -1,28 +1,43 @@
 const {
     generateAccessToken,
-    generateRefreshToken
+    generateRefreshToken,
+    sendRefreshToken,
+    sendAccessToken
 } = require('../tokenFunctions')
 const { user } = require('../../models')
+const sha256 = require('../lib/SHA256')
+require('dotenv').config()
 
 module.exports = async (req, res) => {
-    //req.body = email, password
+    // "email": "123@email.com",
+    // "password": "1234"
     const { email, password } = req.body
 
-    const userInfo = await user.findOne({
+    const findUser = await user.findOne({
         where: {
             email: email,
-            password: password
         }
     })
+    if (!findUser) {
+        res.status(404).json({ "message": "invalid user info" })
+    }
+
+    const userInfo = await user.findOne({
+        raw: true,
+        where: {
+            email: email,
+            password: sha256(password + process.env.SALT)
+        }
+    })
+    // console.log(userInfo)
     if (!userInfo) {
         res.status(404).json({ "message": "invalid user info" })
     } else {
-        // jwt
-        const accessToken = generateAccessToken(userInfo);
-        const refreshToken = generateRefreshToken(userInfo);
-        res.cookie('refreshToken', refreshToken, { httpOnly: true, sameSite: 'none' }).status(200)
-            .json({ "message": "ok", "accesstoken": accessToken })
+        const obj = { id: userInfo.id, name: userInfo.name }
+        const accessToken = generateAccessToken(obj);
+        const refreshToken = generateRefreshToken(obj);
 
+        sendRefreshToken(res, refreshToken)
+        sendAccessToken(res, accessToken)
     }
 }
-
