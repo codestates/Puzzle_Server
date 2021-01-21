@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      user.hasMany(models.Social, {
+      user.hasMany(models.social, {
         onDelete: 'CASCADE',
         foreignKey: {
           allowNull: false
@@ -47,7 +47,7 @@ module.exports = (sequelize, DataTypes) => {
     usercode: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'User',
+    modelName: 'user',
   });
   return user;
 };
