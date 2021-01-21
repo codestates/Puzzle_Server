@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 const usersRouter = require('./routes/user')
 const homeRouter = require('./routes/home')
 const projectRouter = require('./routes/project')
@@ -20,6 +21,8 @@ app.use(
 
 app.use(morgan('dev'))
 app.use(cookieParser());
+app.use(bodyParser.json())
+
 //라우팅 경로
 //users, home, project, comment, puzzle 
 
