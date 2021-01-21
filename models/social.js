@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      social.belongsTo(models.User, {
+      social.belongsTo(models.user, {
         onDelete: 'CASCADE',
         foreignKey: {
           allowNull: true,
