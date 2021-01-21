@@ -1,6 +1,5 @@
-import express from 'express'
-import controller from '../controller'
-
+const express = require('express')
+const controller = require('../controller')
 const commentRouter = express.Router();
 
 commentRouter.post('/create', controller.comment.create)
@@ -10,4 +9,4 @@ commentRouter.delete('/delete', controller.comment.remove)
 
 
 
-export default commentRouter
+module.exports = commentRouter

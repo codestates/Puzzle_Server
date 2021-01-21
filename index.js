@@ -1,12 +1,12 @@
-import express from 'express';
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
-import usersRouter from './routes/user'
-import homeRouter from './routes/home'
-import projectRouter from './routes/project'
-import commentRouter from './routes/comment'
-import puzzleRouter from './routes/puzzle'
-import morgan from 'morgan'
+const express = require('express')
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const usersRouter = require('./routes/user')
+const homeRouter = require('./routes/home')
+const projectRouter = require('./routes/project')
+const commentRouter = require('./routes/comment')
+const puzzleRouter = require('./routes/puzzle')
+const morgan = require('morgan')
 
 const app = express()
 

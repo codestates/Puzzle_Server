@@ -1,14 +1,14 @@
-import express from 'express';
-import controller from '../controller';
+const express = require('express')
+const { userController } = require('../controller');
 const usersRouter = express.Router();
 
-usersRouter.post('/login', controller.user.login)
-usersRouter.post('/signup', controller.user.signup)
-usersRouter.post('/logout', controller.user.logout)
-usersRouter.get('/userinfo', controller.user.userinfo)
-usersRouter.get('/google', controller.user.google)
-usersRouter.post('/google', controller.user.google)
-usersRouter.get('/kakao', controller.user.kakao)
-usersRouter.post('/kakao', controller.user.kakao)
+usersRouter.post('/login', userController.login)
+usersRouter.post('/signup', userController.signup)
+usersRouter.post('/logout', userController.logout)
+usersRouter.get('/userinfo', userController.userinfo)
+usersRouter.get('/google', userController.google)
+usersRouter.post('/google', userController.google)
+usersRouter.get('/kakao', userController.kakao)
+usersRouter.post('/kakao', userController.kakao)
 
-export default usersRouter
+module.exports = usersRouter
