@@ -33,13 +33,15 @@ const upload = multer({ //multer({storage: 저장할 경로}), multerS3를 사�
 
 usersRouter.post('/login', userController.login)
 usersRouter.post('/signup', userController.signup)
-usersRouter.post('/logout', userController.logout)
+usersRouter.get('/logout', userController.logout)
 usersRouter.get('/userinfo', userController.userinfo)
 usersRouter.get('/google', userController.google)
 usersRouter.post('/google', userController.google)
 usersRouter.get('/kakao', userController.kakao)
 usersRouter.post('/kakao', userController.kakao)
 usersRouter.post('/userinfo', upload.single('image'), userController.upload)
+usersRouter.post('/findpw', userController.findpw)
+usersRouter.post('/useredit', userController.useredit)
 
 
 module.exports = usersRouter

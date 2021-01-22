@@ -5,5 +5,7 @@ module.exports = {
     userinfo: require('./userinfo'),
     google: require('./google'),
     kakao: require('./kakao'),
-    upload: require('./upload')
+    upload: require('./upload'),
+    findpw: require('./findpw'),
+    useredit: require('./useredit')
 }
