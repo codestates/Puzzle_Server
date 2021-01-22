@@ -2,11 +2,15 @@ const express = require('express')
 const multer = require('multer');
 const AWS = require('aws-sdk');
 const multerS3 = require('multer-s3');
+const moment = require('moment');
+const momentttz = require('moment-timezone');
 const dotenv = require('dotenv')
 dotenv.config();
 const { userController } = require('../controller');
 const usersRouter = express.Router();
 
+momentttz().tz('Asia/Seoul').format();
+let date = moment().format('YYYY-MM-DD HH:mm:ss')
 
 AWS.config.update({
   accessKeyId: process.env.AWS_ACCESSKEY_ID,
@@ -20,8 +24,7 @@ const upload = multer({ //multer({storage: 저장할 경로}), multerS3를 사�
     bucket: process.env.AWS_BUCKET_NAME,
     acl: 'public-read',
     key: function (req, file, cb) {
-      console.log(file)
-      cb(null, `profileimg/${Date.now()}.${file.originalname}`)
+      cb(null, `profileimg/${date}.${file.originalname}`)
     }
   }),
   limits: { fileSize: 20 * 1024 * 1024 }, //20MB
@@ -37,5 +40,6 @@ usersRouter.post('/google', userController.google)
 usersRouter.get('/kakao', userController.kakao)
 usersRouter.post('/kakao', userController.kakao)
 usersRouter.post('/userinfo', upload.single('image'), userController.upload)
+
 
 module.exports = usersRouter
