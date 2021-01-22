@@ -7,5 +7,6 @@ module.exports = {
     kakao: require('./kakao'),
     upload: require('./upload'),
     findpw: require('./findpw'),
-    useredit: require('./useredit')
+    useredit: require('./useredit'),
+    profile: require('./profile')
 }
