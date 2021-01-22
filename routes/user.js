@@ -39,7 +39,7 @@ usersRouter.get('/google', userController.google)
 usersRouter.post('/google', userController.google)
 usersRouter.get('/kakao', userController.kakao)
 usersRouter.post('/kakao', userController.kakao)
-usersRouter.post('/userinfo', upload.single('image'), userController.upload)
+usersRouter.post('/profile', upload.single('image'), userController.upload)
 
 
 module.exports = usersRouter
