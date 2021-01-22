@@ -5,5 +5,5 @@ module.exports = {
     userinfo: require('./userinfo'),
     google: require('./google'),
     kakao: require('./kakao'),
-    upload: require('./upload')
+    profile: require('./profile')
 }
