@@ -22,11 +22,10 @@ app.use(
 app.use(morgan('dev'))
 app.use(cookieParser());
 app.use(bodyParser.json())
-
 //라우팅 경로
 //users, home, project, comment, puzzle 
 
-app.use('/users', usersRouter)
+app.use('/user', usersRouter)
 app.use('/home', homeRouter)
 app.use('/project', projectRouter)
 app.use('/puzzle', puzzleRouter)
