@@ -15,25 +15,32 @@ module.exports = {
     return queryInterface.bulkInsert("userPermissions", [
       {
         id: 1,
-        userId: 1,
-        projectId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
+        userId: 1,
+        projectId: 1,
       },
       {
         id: 2,
-        userId: 2,
-        projectId: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
+        userId: 2,
+        projectId: 1,
       },
       {
         id: 3,
-        userId: 1,
-        projectId: 2,
         createdAt: new Date(),
         updatedAt: new Date(),
+        userId: 1,
+        projectId: 2,
       },
+      {
+        id: 4,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        userId: 2,
+        projectId: 2,
+      }
     ])
   },
 
@@ -44,5 +51,6 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    return queryInterface.bulkDelete('userPermissions', null, {})
   }
 };
