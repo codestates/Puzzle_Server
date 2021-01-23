@@ -11,9 +11,9 @@ usersRouter.get('/google', userController.google)
 usersRouter.post('/google', userController.google)
 usersRouter.get('/kakao', userController.kakao)
 usersRouter.post('/kakao', userController.kakao)
-usersRouter.post('/userinfo', upload.single('image'), userController.upload)
 usersRouter.post('/findpw', userController.findpw)
 usersRouter.post('/useredit', userController.useredit)
 usersRouter.post('/profile', upload.single('image'), userController.profile)
+usersRouter.post('/findemail', userController.findemail)
 
 module.exports = usersRouter

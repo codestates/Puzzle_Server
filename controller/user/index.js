@@ -5,8 +5,8 @@ module.exports = {
     userinfo: require('./userinfo'),
     google: require('./google'),
     kakao: require('./kakao'),
-    upload: require('./upload'),
     findpw: require('./findpw'),
     useredit: require('./useredit'),
-    profile: require('./profile')
+    profile: require('./profile'),
+    findemail: require('./findemail')
 }
