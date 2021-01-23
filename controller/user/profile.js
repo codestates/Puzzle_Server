@@ -2,7 +2,8 @@ const { user } = require('../../models')
 const { isAuthorized } = require('../tokenFunctions')
 module.exports = async (req, res) => {
   const verifyToken = isAuthorized(req);
-
+  console.log('test')
+  console.log(verifyToken)
   if (!verifyToken) {
     res.json({"message": "there isn't token or invalid token"})
   }else { //verifyToken = {id: 유저테이블 id, name: 유저테이블의 name}

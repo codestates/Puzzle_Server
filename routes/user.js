@@ -14,7 +14,6 @@ usersRouter.get('/kakao', userController.kakao)
 usersRouter.post('/kakao', userController.kakao)
 usersRouter.post('/findpw', userController.findpw)
 usersRouter.post('/useredit', userController.useredit)
-usersRouter.post('/profile', upload.single('image'), userController.profile)
 usersRouter.post('/findemail', userController.findemail)
 usersRouter.post('/profile', isLoggedIn, upload.single('image'), userController.profile)
 
