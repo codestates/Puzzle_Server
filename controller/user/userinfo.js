@@ -6,6 +6,7 @@ require('dotenv').config();
 
 module.exports = async (req, res) => {
     const verifyToken = isAuthorized(req);
+    console.log(verifyToken)
     if (!verifyToken) {
         res.json({ "message": "can't get user infomation" })
     } else {
