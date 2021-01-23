@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   image.init({
-    puzzleImg: DataTypes.BLOB,
+    puzzleImg: DataTypes.STRING,
     puzzleNum: DataTypes.INTEGER,
     puzzleFinished: DataTypes.INTEGER,
     projectId: DataTypes.STRING

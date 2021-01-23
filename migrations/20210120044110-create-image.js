@@ -9,7 +9,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       puzzleImg: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       },
       puzzleNum: {
         type: Sequelize.INTEGER
