@@ -8,17 +8,39 @@ module.exports = async (req, res) => {
     if (!authorization) {
         res.status(401).json({ "error": "not authorized" })
     } else {
-        const { body } = req //입력이 된 값만 넘어온다.
-        body.password = sha256(body.password + process.env.SALT)
-        console.log(body)
-        const userInfo = await user.update(body, {
-            where: {
-                id: authorization.id
+        const { name, password, changePw, phone, profileImg } = req.body //입력이 된 값만 넘어온다.
+        // console.log(req.body)
+        if (!password && !changePw) {
+            const userInfo = await user.update(req.body, {
+                where: {
+                    id: authorization.id
+                }
+            })
+            res.status(200).json({ "message": "ok" })
+
+        } else if (password && changePw) {
+            const findUser = await user.findOne({
+                where: { id: authorization.id }
+            })
+
+            if (sha256(password + process.env.SALT) !== findUser.password) {
+                res.status(404).json({ "error": "not invalid password" })
+
+            } else {
+                req.body["password"] = sha256(changePw + process.env.SALT)
+                delete req.body["changePw"]
+
+                const userInfo = await user.update(req.body, {
+                    where: {
+                        id: authorization.id
+                    }
+                })
+                res.status(200).json({ "message": "ok complete change!" })
+
             }
-        })
-        console.log(userInfo)
-        res.status(200).json({
-            "message": "OK Change complete!"
-        })
+        } else {
+            res.status(404).json({ "error": "not invalid password" })
+
+        }
     }
 }

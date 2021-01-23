@@ -4,4 +4,6 @@ const {
 } = require('../tokenFunctions')
 const { user } = require('../../models')
 
-module.exports = () => { }
+module.exports = () => {
+
+}
