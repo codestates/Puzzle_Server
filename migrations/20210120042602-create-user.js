@@ -21,7 +21,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       profileImg: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       },
       usercode: {
         type: Sequelize.STRING
