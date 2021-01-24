@@ -8,8 +8,13 @@ const projectRouter = require('./routes/project')
 const commentRouter = require('./routes/comment')
 const puzzleRouter = require('./routes/puzzle')
 const morgan = require('morgan')
+const https = require('https');
+const fs = require('fs')
 
 const app = express()
+
+const cert = fs.readFileSync("/etc/letsencrypt/live/api.teampuzzle.ga/fullchain.pem","utf-8");
+const key = fs.readFileSync("/etc/letsencrypt/live/api.teampuzzle.ga/privkey.pem","utf-8");
 
 app.use(
   cors({
@@ -31,6 +36,17 @@ app.use('/project', projectRouter)
 app.use('/puzzle', puzzleRouter)
 app.use('/comment', commentRouter)
 
+
+https
+.createServer(
+    {
+        key : key,
+        cert : cert
+    },
+    app.use('/', (req, res) => {
+      res.send('Congrats! You made https server now')
+    })
+).
 app.listen(4000, () => {
   console.log('server start...')
 });
