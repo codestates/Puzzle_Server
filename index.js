@@ -18,8 +18,8 @@ const app = express()
 //const key = fs.readFileSync("/etc/letsencrypt/live/api.teampuzzle.ga/privkey.pem","utf-8");
 
 //개발용 cert와 key
-const cert = fs.readFileSync("./cert.pem")
-const key = fs.readFileSync("./key.pem")
+const cert = fs.readFileSync("./cert.pem", "utf-8")
+const key = fs.readFileSync("./key.pem", "utf-8")
 
 app.use(
   cors({
