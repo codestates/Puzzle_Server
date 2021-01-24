@@ -13,8 +13,13 @@ const fs = require('fs')
 
 const app = express()
 
-const cert = fs.readFileSync("/etc/letsencrypt/live/api.teampuzzle.ga/fullchain.pem","utf-8");
-const key = fs.readFileSync("/etc/letsencrypt/live/api.teampuzzle.ga/privkey.pem","utf-8");
+//배포용 cert와 key(로컬에서 테스트할 때는 각주처리하고 개발용을 사용해주세요)
+//const cert = fs.readFileSync("/etc/letsencrypt/live/api.teampuzzle.ga/fullchain.pem","utf-8");
+//const key = fs.readFileSync("/etc/letsencrypt/live/api.teampuzzle.ga/privkey.pem","utf-8");
+
+//개발용 cert와 key
+const cert = fs.readFileSync("./cert.pem")
+const key = fs.readFileSync("./key.pem")
 
 app.use(
   cors({
