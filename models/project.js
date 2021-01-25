@@ -11,12 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      project.hasMany(models.userPermission, {
+      project.belongsToMany(models.user, {
+        through: 'userPermission',
         onDelete: 'CASCADE',
-        foreignKey: {
-          allowNull: false
-        }
+        foreignKey: 'projectId'
       })
+      // project.hasMany(models.userPermission, {
+      //   onDelete: 'CASCADE',
+      //   foreignKey: {
+      //     allowNull: false
+      //   }
+      // })
       project.hasMany(models.puzzle, {
         onDelete: 'CASCADE',
         foreignKey: {
@@ -34,7 +39,8 @@ module.exports = (sequelize, DataTypes) => {
   project.init({
     title: DataTypes.STRING,
     description: DataTypes.TEXT,
-    isFinish: DataTypes.BOOLEAN
+    isFinish: DataTypes.BOOLEAN,
+    projectImg: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'project',

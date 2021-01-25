@@ -17,6 +17,12 @@ module.exports = {
       isFinish: {
         type: Sequelize.BOOLEAN
       },
+      isFinish: {
+        type: Sequelize.BOOLEAN
+      },
+      projectImg: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

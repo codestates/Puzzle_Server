@@ -1,7 +1,10 @@
 const {
     generateAccessToken,
-    generateRefreshToken
+    generateRefreshToken,
+    isAuthorized
 } = require('../tokenFunctions')
-const { user } = require('../../models')
+const { puzzle } = require('../../models')
 
-module.exports = () => { }
+module.exports = async (req, res) => {
+    const puzzleInfo = await puzzle.create()
+}

@@ -5,12 +5,12 @@ const { user } = require('../../models')
 require('dotenv').config();
 
 module.exports = async (req, res) => {
-    const verifyToken = isAuthorized(req);
-    console.log(verifyToken)
-    if (!verifyToken) {
+    const verifiedToken = isAuthorized(req);
+    console.log(verifiedToken)
+    if (!verifiedToken) {
         res.json({ "message": "can't get user infomation" })
     } else {
-        const { id, name } = verifyToken
+        const { id, name } = verifiedToken
         const userInfo = await user.findOne({
             raw: true,
             where: {
@@ -18,12 +18,12 @@ module.exports = async (req, res) => {
                 name: name
             }
         })
-        const { email, phone, profileImg, usercode } = userInfo//id, name변수명이 verifyToken 과 중복
+        const { email, phone, profileImg, usercode } = userInfo//id, name변수명이 verifiedToken 과 중복
         // console.log(userInfo)
         res.json({
             "data": {
-                "id": id, //verifyToken.id
-                "name": name,//verifyToken.name
+                "id": id, //verifiedToken.id
+                "name": name,//verifiedToken.name
                 "email": email,
                 "phone": phone,
                 "profileImg": profileImg,
