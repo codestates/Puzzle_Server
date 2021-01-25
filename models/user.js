@@ -17,12 +17,17 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       })
-      user.hasMany(models.userPermission, {
+      user.belongsToMany(models.project, {
+        through: 'userPermission',
         onDelete: 'CASCADE',
-        foreignKey: {
-          allowNull: false
-        }
+        foreignKey: 'userId'
       })
+      // user.hasMany(models.userPermission, {
+      //   onDelete: 'CASCADE',
+      //   foreignKey: {
+      //     allowNull: false
+      //   }
+      // })
       user.hasMany(models.userPuzzle, {
         onDelete: 'CASCADE',
         foreignKey: {

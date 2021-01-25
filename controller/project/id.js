@@ -1,7 +1,18 @@
 const {
-    generateAccessToken,
-    generateRefreshToken
+    isAuthorized
 } = require('../tokenFunctions')
-const { user } = require('../../models')
+const { project, image } = require('../../models')
 
-module.exports = () => { }
+module.exports = async (req, res) => {
+    //home의 프로젝트를 선택한다.
+    const verifiedToken = isAuthorized(req)
+    const projectId = req.parems.id
+
+    const projectInfo = await project.findOne({
+        where: { id: projectId }
+    })
+    const projectImg = await image.findOne({
+        where: { projectId: projectId }
+    })
+
+}

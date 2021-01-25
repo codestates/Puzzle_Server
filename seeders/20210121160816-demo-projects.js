@@ -16,6 +16,7 @@ module.exports = {
       title: "프로젝트1",
       description: "프로젝트1을 하는 곳이다.",
       isFinish: false,
+      projectImg: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -24,6 +25,7 @@ module.exports = {
       title: "프로젝트2",
       description: "프로젝트2가 진행중이다.",
       isFinish: false,
+      projectImg: null,
       createdAt: new Date(),
       updatedAt: new Date(),
     }

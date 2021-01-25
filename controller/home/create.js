@@ -1,9 +1,31 @@
 const {
-    generateAccessToken,
-    generateRefreshToken
+    isAuthorized
 } = require('../tokenFunctions')
-const { user } = require('../../models')
+const { project } = require('../../models')
 
+<<<<<<< HEAD
+module.exports = async (req, res) => {
+    //프로젝트를 생성한다.
+    const { title, description, projectImg } = req.body
+    const varifyedToken = isAuthorized(req);
+    const projectInfo = await project.create({
+        title: title,
+        description: description,
+        isFinish: false,
+        projectImg: projectImg
+    })
+
+    if (!projectInfo) {
+        res.status(404).json({
+            "error": "can't create new project"
+        })
+    } else {
+        res.status(200).json({
+            "messages": "ok"
+        })
+    }
+}
+=======
 module.exports =async () => {
 
 
@@ -43,3 +65,4 @@ module.exports =async () => {
                   }, */
     //1.해당 유저의 projects 테이블
     //2.해당 유저가 속해있는 팀(속해있는 팀원의 user테이블의 name과 profileImg)
+>>>>>>> dev

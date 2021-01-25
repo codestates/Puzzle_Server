@@ -4,28 +4,59 @@ const {
 const { project, user, userPermission } = require('../../models')
 
 module.exports = async (req, res) => {
-    const verifyToken = isAuthorized(req)
     //토큰확인여부 작성
-    const projectInfo = await project.findAll({
-        raw: true,
-        include: [
-            { model: userPermission, required: true }
-        ]
-    })
+    const verifiedToken = isAuthorized(req)
+    if (!verifiedToken) {
+        res.status(404).json({ "error": "can't find main page" })
 
-    console.log(projectInfo[0]["userPermissions.userId"])
-    const userInfo = await user.findAll({ raw: true })
-    res.status(200).json({
-        "users": userInfo,
-        "data": projectInfo
-    })
-    //이렇게 res.json해선 안된다. data에 project마다 userid와 username, userImg를 같이 보내줘야 한다.
+    } else {
+        //로그인한 유저가 속한 프로젝트 id를 찾아 배열로 모은다. userPermission
+        const myProjectsId = await userPermission.findAll({
+            raw: true,
+            attributes: ["projectId"],
+            where: { userId: verifiedToken.id }
+        })
+        //console.log(myProjectsId)
 
-    //sudo? 정확하지 않다.
-    //가져온 프로젝트의 id로 projectPermissions에서 프로젝트 id와 같이 있는 유저 id를 찾는다.
-    //프로젝트 정보 중에서  로그인 유저 id와 일치하는 userPermissions를 전부 가져온다.
-    //로그인 유저 id를 가지고 있는 userPermissions 행에서 projectId 전부를 가져온다.
-    //가져온 projectId에 있는 다른 userId 정보를 가져온다.
-    //프로젝트 data에 
+        const projectsId = myProjectsId.map(el => {// 변수를 새로 설정하고 filter해야 한다.
+            return el["projectId"]
+        })//[1,2,3...]
+        // console.log(projectsId)
 
+        //프로젝트의 id를 가져와 각 id와 속해있는 모든 유저를 찾는다.
+        const userInvitedProjects = await userPermission.findAll({
+            raw: true,
+            attributes: ["projectId", "userId"],
+            where: { projectId: projectsId }
+        })//[ { projectId: 1, userId: 1 },{ projectId: 1, userId: 2 },{ projectId: 2, userId: 1 },{ projectId: 2, userId: 2 }]
+        // console.log(userInvitedProjects)
+
+        //프로젝트 id로 내가 속한 프로젝트를 전부 가져온다.
+        const myProjects = await project.findAll({
+            raw: true,
+            where: { id: projectsId },
+        })
+        // console.log(myProjects)
+
+        myProjects.forEach(mEl => {//project1, project2
+            mEl["usersData"] = []
+
+            userInvitedProjects.forEach(async uEl => {
+                if (mEl.id === uEl.projectId) {
+                    let result = await user.findOne({
+                        raw: true,
+                        attributes: ["id", "name", "profileImg"],
+                        where: { id: uEl.userId }
+                    })
+                    mEl["usersData"].push(result)
+                    console.log(mEl["usersData"])
+                }
+            })
+        })
+
+        res.status(200).json({
+            "projects": myProjects
+        })
+
+    }
 }
