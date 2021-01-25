@@ -38,25 +38,29 @@ module.exports = async (req, res) => {
         })
         // console.log(myProjects)
 
-        myProjects.forEach(mEl => {//project1, project2
-            mEl["usersData"] = []
-
-            userInvitedProjects.forEach(async uEl => {
-                if (mEl.id === uEl.projectId) {
+        for (let i = 0; i < myProjects.length; i++) {
+            myProjects[i]["usersData"] = [];
+            for (let j = 0; j < userInvitedProjects.length; j++) {
+                if (myProjects[i].id === userInvitedProjects[j].projectId) {
                     let result = await user.findOne({
                         raw: true,
                         attributes: ["id", "name", "profileImg"],
-                        where: { id: uEl.userId }
+                        where: { id: userInvitedProjects[j].userId }
                     })
-                    mEl["usersData"].push(result)
-                    console.log(mEl["usersData"])
+                    myProjects[i]["usersData"].push(result)
                 }
+            }
+        }
+        if (!myProjects) {
+            res.status(200).json({
+                "message": "you don't have any project",
+                "projects": []
             })
-        })
-
-        res.status(200).json({
-            "projects": myProjects
-        })
+        } else {
+            res.status(200).json({
+                "projects": myProjects
+            })
+        }
 
     }
 }
