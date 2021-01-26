@@ -14,14 +14,19 @@ module.exports = async (req, res) => {
     if (!verifiedToken) {
         res.status(404).json({ "error": "can't find main page" })
     } else {
-        //프로젝트, 팀, 퍼즐, 이미지 ,라벨이 필요하다. 라벨은 퍼즐라벨, 이미지는 퍼즐이미지
-        //코멘트 필요
+        //로그인 유저 정보 불러오기
+        const userInfo = await user.findOne({
+            raw: true,
+            attributes: { exclude: ['password'] },
+            where: { id: verifiedToken.id }
+        })
+
         //프로젝트 하나를 가져온다.
         const projectInfo = await project.findOne({
             raw: true,
             where: { id: id }
         })
-        console.log(projectInfo)
+        // console.log(projectInfo)
 
         //프로젝트의 팀(초대받은) 사람들을 부른다.
         //프로젝트의 usersData에 user 정보를 입력한다.
@@ -46,9 +51,9 @@ module.exports = async (req, res) => {
             where: { projectId: projectInfo.id }
         })
         const puzzleIds = puzzlesInfo.map(el => { return el.id })
-        console.log(puzzlesInfo)
+        // console.log(puzzlesInfo)
 
-        //퍼즐의 제작자 정보를 부른다.
+        //퍼즐의 제작자 userId 정보를 부른다.
         const puzzleWriters = await userPuzzle.findAll({
             raw: true,
             where: { puzzleId: puzzleIds },
@@ -60,16 +65,21 @@ module.exports = async (req, res) => {
         puzzlesInfo.forEach(puzzle => {
             puzzleWriters.forEach(writer => {
                 if (puzzle.id === writer.puzzleId) {
-                    puzzlesInfo["userData"] = usersInfo.find(({ id, name }) => {
+                    const { id, name } = usersInfo.find(({ id }) => {
                         return id === writer.userId
                     })
+                    puzzle["writer"] = { id: id, name: name }
                 }
             })
         })
-        console.log(puzzlesInfo)
+        // console.log(puzzlesInfo)
 
+        //puzzlesInfo, userInfo 전체정보를 projectInfo에 입력
+        projectInfo["puzzlesInfo"] = puzzlesInfo
+        projectInfo["teams"] = usersInfo
         res.status(200).json({
-            "data": projectInfo
+            "loginUser": userInfo,
+            "project": projectInfo
         })
 
     }
