@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     //토큰확인여부 작성
     const verifiedToken = isAuthorized(req)
     if (!verifiedToken) {
-        res.status(404).json({ "error": "can't find main page" })
+        res.status(401).json({ "error": "not authorized" })
 
     } else {
         //로그인 유저 정보 불러오기
@@ -60,7 +60,7 @@ module.exports = async (req, res) => {
             }
         }
         if (!myProjects) {
-            res.status(200).json({
+            res.status(404).json({
                 "message": "you don't have any project",
                 "projects": []
             })

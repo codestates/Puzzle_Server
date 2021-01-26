@@ -1,6 +1,7 @@
 const {
     isAuthorized
 } = require('../tokenFunctions')
+<<<<<<< Updated upstream
 const { project, puzzle } = require('../../models')
 //프로젝트의 퍼즐조각 개수를 설정한다.
 module.exports = async (req, res) => {
@@ -21,4 +22,21 @@ module.exports = async (req, res) => {
         }
 
     }
+=======
+const { project } = require('../../models')
+
+module.exports = async (req, res) => {
+    const { id, puzzleNum, projectImg, title, description } = req.body
+    const verifiedToken = isAuthorized(req)
+    if (!verifiedToken) {
+        res.status(401).json({ "error": "not authorized" })
+    } else {
+        const projectInfo = await project.update(req.body, {
+            where: { id: projectId }
+        })
+
+
+    }
+
+>>>>>>> Stashed changes
 }
