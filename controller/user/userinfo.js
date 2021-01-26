@@ -10,15 +10,15 @@ module.exports = async (req, res) => {
     if (!verifiedToken) {
         res.json({ "message": "can't get user infomation" })
     } else {
-        const { id, name } = verifiedToken
+        const { id, email } = verifiedToken
         const userInfo = await user.findOne({
             raw: true,
             where: {
                 id: id,
-                name: name
+                name: email
             }
         })
-        const { email, phone, profileImg, usercode } = userInfo//id, name변수명이 verifiedToken 과 중복
+        const { email, name, phone, profileImg, usercode } = userInfo//id, name변수명이 verifiedToken 과 중복
         // console.log(userInfo)
         res.json({
             "data": {
