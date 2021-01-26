@@ -10,6 +10,14 @@ module.exports = async (req, res) => {
         res.status(404).json({ "error": "can't find main page" })
 
     } else {
+        //로그인 유저 정보 불러오기
+        const userInfo = await user.findOne({
+            raw: true,
+            attributes: { exclude: ['password'] },
+            where: { id: verifiedToken.id }
+        })
+        console.log(userInfo)
+
         //로그인한 유저가 속한 프로젝트 id를 찾아 배열로 모은다. userPermission
         const myProjectsId = await userPermission.findAll({
             raw: true,
@@ -58,6 +66,7 @@ module.exports = async (req, res) => {
             })
         } else {
             res.status(200).json({
+                "loginUser": userInfo,
                 "projects": myProjects
             })
         }
