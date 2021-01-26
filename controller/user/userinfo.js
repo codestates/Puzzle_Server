@@ -15,9 +15,10 @@ module.exports = async (req, res) => {
             raw: true,
             where: {
                 id: id,
-                name: email
+                email: email
             }
         })
+        console.log(userInfo)
         const { name, phone, profileImg, usercode } = userInfo//id, name변수명이 verifiedToken 과 중복
         // console.log(userInfo)
         res.status(200).json({
