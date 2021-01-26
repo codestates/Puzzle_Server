@@ -40,7 +40,9 @@ module.exports = (sequelize, DataTypes) => {
     title: DataTypes.STRING,
     description: DataTypes.TEXT,
     isFinish: DataTypes.BOOLEAN,
-    projectImg: DataTypes.STRING
+    projectImg: DataTypes.STRING,
+    puzzleNum: DataTypes.INTEGER,
+    puzzleFinished: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'project',
