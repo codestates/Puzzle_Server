@@ -28,12 +28,7 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       })
-      project.hasMany(models.image, {
-        onDelete: 'CASCADE',
-        foreignKey: {
-          allowNull: false
-        }
-      })
+
     }
   };
   project.init({
