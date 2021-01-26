@@ -33,7 +33,7 @@ module.exports = async (req, res) => {
     if (!userInfo) {
         res.status(404).json({ "message": "invalid user info" })
     } else {
-        const obj = { id: userInfo.id, name: userInfo.name }
+        const obj = { id: userInfo.id, email: userInfo.email }
         const accessToken = generateAccessToken(obj);
         const refreshToken = generateRefreshToken(obj);
 
