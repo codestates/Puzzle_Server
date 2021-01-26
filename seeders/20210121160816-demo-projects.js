@@ -17,6 +17,8 @@ module.exports = {
       description: "프로젝트1을 하는 곳이다.",
       isFinish: false,
       projectImg: null,
+      puzzleNum: 9,
+      puzzleFinished: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -26,8 +28,21 @@ module.exports = {
       description: "프로젝트2가 진행중이다.",
       isFinish: false,
       projectImg: null,
+      puzzleNum: 16,
+      puzzleFinished: 0,
       createdAt: new Date(),
       updatedAt: new Date(),
+    },
+    {
+      id:3,
+      title: "Project for guest",
+      description: "게스트용 예시 프로젝트입니다",
+      isFinish: false,
+      projectImg: null,
+      puzzleNum: 9,
+      puzzleFinished: 0,
+      createdAt: new Date(),
+      updatedAt: new Date()
     }
     ])
   },

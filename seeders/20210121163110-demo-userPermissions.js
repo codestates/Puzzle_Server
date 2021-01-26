@@ -40,6 +40,27 @@ module.exports = {
         updatedAt: new Date(),
         userId: 2,
         projectId: 2,
+      },
+      {
+        id: 5,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        userId: 3,
+        projectId: 3
+      },
+      {
+        id: 6,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        userId: 1,
+        projectId: 3
+      },
+      {
+        id: 7,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        userId: 2,
+        projectId: 3
       }
     ])
   },

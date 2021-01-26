@@ -17,7 +17,7 @@ module.exports = {
       email: "hong@mail.com",//password: 1234
       password: "0977937a4d4e174e49b792a1ef521e6c346ebde25626a5830efa08667d9c037d",
       phone: "01012345678",
-      profileImg: null,
+      profileImg: "https://puzzleimg.s3.ap-northeast-2.amazonaws.com/profileimg/1611628015850.hong.jpg",
       usercode: "abcd",
       createdAt: new Date(),
       updatedAt: new Date(),
@@ -28,8 +28,19 @@ module.exports = {
       email: "lee@mail.com",//password: qwer
       password: "a340a4eb98c3c8814b214121a630da6155d6d59d62ce5f4efe66b676e7fe4e60",
       phone: "01012345678",
-      profileImg: null,
+      profileImg: "https://puzzleimg.s3.ap-northeast-2.amazonaws.com/profileimg/1611628060939.lee.jpg",
       usercode: "defg",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    },
+    {
+      id: 3,
+      name: "Guest",
+      email: "guest@mail.com",//password: 1234
+      password: "0977937a4d4e174e49b792a1ef521e6c346ebde25626a5830efa08667d9c037d",
+      phone: "01012345678",
+      profileImg: "https://puzzleimg.s3.ap-northeast-2.amazonaws.com/profileimg/1611627515063.puzzle.png",
+      usercode: "test-usercode-1234",
       createdAt: new Date(),
       updatedAt: new Date(),
     }
