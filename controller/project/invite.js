@@ -20,10 +20,7 @@ module.exports = async (req, res) => {
 
         //userPermiassions 테이블에 userId값을 findorcreate로 저장한다.
         const [userProject, created] = await userPermission.findOrCreate({
-            where: { userId: invitedUser.id },
-            defaults: {
-                projectId: projectId
-            }
+            where: { userId: invitedUser.id, projectId: projectId }
         })
         if (created) {
             res.status(200).json({

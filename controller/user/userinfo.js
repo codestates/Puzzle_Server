@@ -18,13 +18,13 @@ module.exports = async (req, res) => {
                 name: email
             }
         })
-        const { email, name, phone, profileImg, usercode } = userInfo//id, name변수명이 verifiedToken 과 중복
+        const { name, phone, profileImg, usercode } = userInfo//id, name변수명이 verifiedToken 과 중복
         // console.log(userInfo)
-        res.json({
+        res.status(200).json({
             "data": {
                 "id": id, //verifiedToken.id
-                "name": name,//verifiedToken.name
-                "email": email,
+                "name": name,
+                "email": email, //verifiedToken.email
                 "phone": phone,
                 "profileImg": profileImg,
                 "usercode": usercode
