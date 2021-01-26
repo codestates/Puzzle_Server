@@ -28,7 +28,6 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       })
-
     }
   };
   project.init({
