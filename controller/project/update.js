@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     if (!verifiedToken) {
         res.status(404).json({"err": "cant't authorized token(토큰이 falsy값)"})
     }else {
-        const { title, descripsion, puzzleNum, puzzleFinished } = req.body;  
+        const { title, description, puzzleNum, puzzleFinished } = req.body;  
         const { id } = verifiedToken;
         const projectId  = req.params.id;
         console.log(req.body.puzzleNum)
