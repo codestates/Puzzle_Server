@@ -7,11 +7,11 @@ module.exports = async (req, res) => {
   if (!verifiedToken) {
     res.json({ "message": "there isn't token or invalid token" })
   } else { //verifiedToken = {id: 유저테이블 id, name: 유저테이블의 name}
-    const { id, name } = verifiedToken
+    const { id } = verifiedToken
     const updatedUser = await user.update({
       profileImg: req.file.location
     }, {
-      where: { id: id, name: name }
+      where: { id: id }
     });
 
     if (!updatedUser) {
