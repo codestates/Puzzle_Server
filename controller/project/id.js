@@ -3,7 +3,7 @@ const {
 } = require('../tokenFunctions')
 const { project, user, userPermission,
     puzzle, label, puzzlelabel, userPuzzle,
-    image,
+    image, comment
 } = require('../../models')
 
 module.exports = async (req, res) => {
@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
     const { id } = req.params
 
     if (!verifiedToken) {
-        res.status(404).json({ "error": "can't find main page" })
+        res.status(401).json({ "error": "not authorized" })
     } else {
         //로그인 유저 정보 불러오기
         const userInfo = await user.findOne({
@@ -74,12 +74,23 @@ module.exports = async (req, res) => {
         })
         // console.log(puzzlesInfo)
 
+        //프로젝트의 퍼즐에 달린 코멘트를 전부 불러온다.
+        //puzzleIds를 가져와 전부 입력한다.
+        const commentInfo = await comment.findAll({
+            raw: true,
+            where: { puzzleId: puzzleIds },
+            include: { model: user, attributes: ["name"] }
+        })
+        // console.log(commentInfo)
+
         //puzzlesInfo, userInfo 전체정보를 projectInfo에 입력
         projectInfo["puzzlesInfo"] = puzzlesInfo
         projectInfo["teams"] = usersInfo
+
         res.status(200).json({
             "loginUser": userInfo,
-            "project": projectInfo
+            "project": projectInfo,
+            "comment": commentInfo
         })
 
     }

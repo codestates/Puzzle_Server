@@ -5,8 +5,8 @@ const puzzleRouter = express.Router()
 
 puzzleRouter.post('/create', puzzleController.create)
 puzzleRouter.get('/read/:id', puzzleController.read)
-puzzleRouter.patch('/update', puzzleController.update)
-puzzleRouter.delete('/delete', puzzleController.remove)
+puzzleRouter.post('/update/:id', puzzleController.update)
+puzzleRouter.delete('/delete/:id', puzzleController.remove)
 
 
 module.exports = puzzleRouter

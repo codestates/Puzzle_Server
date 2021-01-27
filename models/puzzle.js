@@ -29,11 +29,10 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       })
-      puzzle.hasMany(models.puzzleLabel, {
+      puzzle.belongsToMany(models.label, {
         onDelete: 'CASCADE',
-        foreignKey: {
-          allowNull: false
-        }
+        through: "puzzleLabel",
+        // foreignKey: 'puzzleId'
       })
     }
   };
