@@ -11,11 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      label.hasMany(models.puzzleLabel, {
+      label.belongsToMany(models.puzzle, {
         onDelete: 'CASCADE',
-        foreignKey: {
-          allowNull: false
-        }
+        through: "puzzleLabel",
       })
     }
   };
