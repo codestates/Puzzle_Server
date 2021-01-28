@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
         const update = await puzzle.update(req.body, {
             where: { id: puzzleId }
         })
-        if (!update) {
+        //update = 성공하면 배열 [0], 실패하면 배열 [1]값을 가진다.
+        if (!update[0]) {
             res.status(403).json({ "error": "update fail" })
         } else {
             const findPuzzle = await puzzle.findOne({
