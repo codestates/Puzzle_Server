@@ -42,7 +42,8 @@ module.exports = (sequelize, DataTypes) => {
     isFinish: DataTypes.BOOLEAN,
     projectId: DataTypes.STRING,
     particle: DataTypes.INTEGER,
-    progress: DataTypes.INTEGER
+    progress: DataTypes.INTEGER,
+    puzzleImg: DataTypes.STRING,
   }, {
     sequelize,
     modelName: 'puzzle',
