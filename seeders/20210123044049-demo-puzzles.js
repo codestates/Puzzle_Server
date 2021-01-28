@@ -19,6 +19,7 @@ module.exports = {
       projectId: 1,
       particle: 1,//1번째 퍼즐 조각
       progress: 100,//완성도는 작업내용에 따라 직접 입력. 100이라고 하면 isFinish true 표시
+      puzzleImg: "https://puzzleimg.s3.ap-northeast-2.amazonaws.com/puzzleimg/puzzle.png",
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -30,6 +31,7 @@ module.exports = {
       projectId: 1,
       particle: 2,//2번째 퍼즐 조각
       progress: 30,
+      puzzleImg: "https://puzzleimg.s3.ap-northeast-2.amazonaws.com/puzzleimg/puzzle.png",
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -41,6 +43,7 @@ module.exports = {
       projectId: 2,//프로젝트 2의 퍼즐조각
       particle: 3,//3번째 퍼즐조각
       progress: 50,
+      puzzleImg: "https://puzzleimg.s3.ap-northeast-2.amazonaws.com/puzzleimg/puzzle.png",
       createdAt: new Date(),
       updatedAt: new Date(),
     },
@@ -52,6 +55,7 @@ module.exports = {
       projectId: 2,//프로젝트2의 퍼즐조각
       particle: 9,// 9번째 퍼즐조각, 
       progress: 0,
+      puzzleImg: "https://puzzleimg.s3.ap-northeast-2.amazonaws.com/puzzleimg/puzzle.png",
       createdAt: new Date(),
       updatedAt: new Date(),
     },

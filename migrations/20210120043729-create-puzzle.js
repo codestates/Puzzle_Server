@@ -23,6 +23,9 @@ module.exports = {
       progress: {
         type: Sequelize.INTEGER
       },
+      puzzleImg: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
