@@ -18,18 +18,23 @@ module.exports = async (req, res) => {
                 email: email
             }
         })
-        // console.log(userInfo)
-        const { name, phone, profileImg, usercode } = userInfo//id, name변수명이 verifiedToken 과 중복
-        // console.log(userInfo)
-        res.status(200).json({
-            "data": {
-                "id": id, //verifiedToken.id
-                "name": name,
-                "email": email, //verifiedToken.email
-                "phone": phone,
-                "profileImg": profileImg,
-                "usercode": usercode
-            }
-        })
+        if (!userInfo) {
+            res.status(404).json({"message": "There is no user information that matches the token information"})
+        }else {
+            // console.log(userInfo)
+            const { name, phone, profileImg, usercode } = userInfo//id, name변수명이 verifiedToken 과 중복
+            // console.log(userInfo)
+            res.status(200).json({
+                "data": {
+                    "id": id, //verifiedToken.id
+                    "name": name,
+                    "email": email, //verifiedToken.email
+                    "phone": phone,
+                    "profileImg": profileImg,
+                    "usercode": usercode
+                }
+            })
+        }
+        
     }
 }
