@@ -20,9 +20,6 @@ module.exports = {
       particle: {
         type: Sequelize.INTEGER
       },
-      progress: {
-        type: Sequelize.INTEGER
-      },
       puzzleImg: {
         type: Sequelize.STRING
       },

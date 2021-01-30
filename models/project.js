@@ -35,8 +35,6 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     isFinish: DataTypes.BOOLEAN,
     projectImg: DataTypes.STRING,
-    puzzleNum: DataTypes.INTEGER,
-    puzzleFinished: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'project',

@@ -25,7 +25,7 @@ module.exports = async (req, res) => {
                 where: { id: projectId }
             })
             if (!updatedProject) {
-                res.json({"message": "There are no project with matching information"})
+                res.status(403).json({"message": "There are no project with matching information"})
             }else {
                 res.status(202).send({"projectImgUrl": req.file.location})
             }
