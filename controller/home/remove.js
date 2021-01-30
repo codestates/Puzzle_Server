@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         res.json({"message": "cant't delete information(jwt)"})
     }else {
         const { id } = verifiedToken;
-        const projectId = req.params.id;
+        const projectId = req.params.projectId;
         const team = await userPermission.findAll({
             raw: true,
             where: {

@@ -1,7 +1,7 @@
 const {
     isAuthorized
 } = require('../tokenFunctions')
-const { puzzle, user, label, puzzleLabel, userPuzzle, comment } = require('../../models')
+const { puzzle, user, label, puzzleLabel, userPuzzle, comment, userPermission } = require('../../models')
 
 
 module.exports = async (req, res) => {
@@ -11,9 +11,12 @@ module.exports = async (req, res) => {
         res.status(401).json({ "error": "not authorized" })
 
     } else {
-        const connection = await userPuzzle.findOne({
+        const project = await puzzle.findOne({
+            where: {id: puzzleId}
+        })
+        const connection = await userPermission.findOne({
             where: {
-                puzzleId: puzzleId,
+                projectId: project.projectId,
                 userId: verifiedToken.id
             }
         })

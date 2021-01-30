@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     if (!verifiedToken) {
         res.status(404).json({ "err": "cant't authorized token(jwt)" })
     } else {
-        const { title, description, puzzleNum, puzzleFinished, isFinish, usercode } = req.body;
+        const { title, description, isFinish, usercode } = req.body;  //usercode: array
         const { id } = verifiedToken;//[1]
         const projectId = req.params.id;
 
@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
         })
 
         if (!targetProject) {
-            res.status(404).json({ "error": "can't find projectinfo" })
+            res.status(405).json({ "error": "can't find projectinfo" })
         } else {
             //요청한 유저가 자기자신의 유저코드 입력해도 추가 안되게 하기
             const reqUser = await user.findOne({

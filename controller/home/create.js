@@ -4,6 +4,7 @@ const {
 const { project, userPermission, user } = require('../../models')
 
 module.exports = async (req, res) => {
+    //usercode: array
     const { title, description, usercode } = req.body
     const verifiedToken = isAuthorized(req);
     if (!verifiedToken) {
@@ -17,13 +18,7 @@ module.exports = async (req, res) => {
             where: { id: id }
         })
         const reqUsercode = reqUser.usercode;
-
-        const alterUsercodes = usercode.filter(el => {
-            if (el === reqUsercode) { 
-                return false;
-            }
-            return true;
-        })
+        
         //1. project 테이블에 insert into
         const projectInfo = await project.create({
             title: title,
@@ -36,27 +31,36 @@ module.exports = async (req, res) => {
             userId: id,
             projectId: projectInfo.id
         })
-        //3. 만약 요청의 body에 usercode를 (배열의 형식으로) 담아서 보냈다면,
-        if (alterUsercodes.length > 0) {
-            alterUsercodes.forEach(async (alterUsercode) => {
-        //4. 그 유저코드를 가진 유저를 찾고, 
-                const addUser = await user.findOne({
-                    raw:true,
-                    where: {
-                        usercode: alterUsercode
+
+        if (Array.isArray(usercode)) {
+            const alterUsercodes = usercode.filter(el => {
+                if (el === reqUsercode) { 
+                    return false;
+                }
+                return true;
+            })
+
+            //3. 만약 요청의 body에 usercode가 배열이고 length가 1 이상이라면,
+            if (alterUsercodes.length > 0) {
+                alterUsercodes.forEach(async (alterUsercode) => {
+            //4. 그 유저코드를 가진 유저를 찾고, 
+                    const addUser = await user.findOne({
+                        raw: true,
+                        where: {
+                            usercode: alterUsercode
+                        }
+                    })
+                    if (!addUser) {
+                        res.status(404).json({"error": "There is no user information matching the usercode"})
+                    }else {
+            //5. 그 유저코드를 가진 유저를 userPermission 테이블에 등록
+                        await userPermission.create({
+                            userId: addUser.id,
+                            projectId: userProject.projectId
+                        })
                     }
                 })
-                if (!addUser) {
-                    res.status(404).json({"error": "There is no user information matching the usercode"})
-                }else {
-        //5. 그 유저코드를 가진 유저를 userPermission 테이블에 등록
-                    delete req.body.usercode;
-                    await userPermission.create({
-                        userId: addUser.id,
-                        projectId: userProject.projectId
-                    })
-                }
-            })
+            }
         }
         res.status(200).json({"message": "ok"})
     }

@@ -3,4 +3,6 @@ module.exports = {
     read: require('./read'),
     update: require('./update'),
     remove: require('./remove'),
+    finish: require('./finish'),
+    puzzleimage: require('./puzzleimage')
 }
