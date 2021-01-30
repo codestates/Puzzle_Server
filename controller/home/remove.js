@@ -1,6 +1,4 @@
 const {
-    generateAccessToken,
-    generateRefreshToken,
     isAuthorized
 } = require('../tokenFunctions')
 const { userPermission, project } = require('../../models')
@@ -8,8 +6,8 @@ const { userPermission, project } = require('../../models')
 module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req);
     if (!verifiedToken) {
-        res.json({"message": "cant't delete information(jwt)"})
-    }else {
+        res.json({ "message": "cant't delete information(jwt)" })
+    } else {
         const { id } = verifiedToken;
         const projectId = req.params.projectId;
         const team = await userPermission.findAll({
@@ -23,15 +21,15 @@ module.exports = async (req, res) => {
         if (team.length === 1) {
             console.log(team);
             //1. 해당 유저의 userPermission을 삭제
-            const targetProject = await userPermission.findOne({ 
+            const targetProject = await userPermission.findOne({
                 where: {
                     projectId: projectId,
                     userId: id
                 }
             })
             if (!targetProject) {
-                res.status(404).json({"message": "can't find project info"})
-            }else {
+                res.status(404).json({ "message": "can't find project info" })
+            } else {
                 await userPermission.destroy({
                     where: {
                         projectId: projectId,
@@ -45,8 +43,8 @@ module.exports = async (req, res) => {
                     id: projectId
                 }
             })
-        }else {
-        //팀에 인원이 1명 이상인 경우(->프로젝트 탈퇴)
+        } else {
+            //팀에 인원이 1명 이상인 경우(->프로젝트 탈퇴)
             const targetProject = await userPermission.findOne({ //userPermission에서 해당 프로젝트의 내 정보를 찾는다
                 where: {
                     projectId: projectId,
@@ -54,8 +52,8 @@ module.exports = async (req, res) => {
                 }
             })
             if (!targetProject) {
-                res.status(404).json({"message": "can't find project info"})
-            }else {
+                res.status(404).json({ "message": "can't find project info" })
+            } else {
                 await userPermission.destroy({
                     where: {
                         projectId: projectId,
@@ -64,9 +62,9 @@ module.exports = async (req, res) => {
                 })
             }
         }
-        
+
     }
-    res.status(202).json({"message": "ok"})
+    res.status(202).json({ "message": "ok" })
 }
 
 // DELETE /home/delete/:id 

@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
     } else {
         const project = await puzzle.findOne({
-            where: {id: puzzleId}
+            where: { id: puzzleId }
         })
         const connection = await userPermission.findOne({
             where: {
@@ -22,8 +22,8 @@ module.exports = async (req, res) => {
         })
 
         if (!connection) {
-            res.status(404).json({"message": "You are not a member of the project this puzzle belongs to"})
-        }else {
+            res.status(404).json({ "message": "You are not a member of the project this puzzle belongs to" })
+        } else {
             //퍼즐 정보를 부른다.
             const puzzleInfo = await puzzle.findOne({
                 raw: true,
@@ -76,7 +76,7 @@ module.exports = async (req, res) => {
                 "comment": commentInfo
             })
         }
-        
+
 
     }
 }
