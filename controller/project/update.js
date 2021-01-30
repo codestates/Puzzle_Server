@@ -16,7 +16,7 @@ module.exports = async (req, res) => {
 
         //요청한 '유저'의 '특정 프로젝트'를 찾는다
         const targetProject = await userPermission.findOne({
-            rew: true,
+            raw: true,
             where: {
                 userId: id,
                 projectId: projectId
