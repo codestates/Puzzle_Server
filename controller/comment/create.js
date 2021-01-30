@@ -17,9 +17,10 @@ module.exports = async (req, res) => {
             description: description
         })
         if (!commentInfo) {
-            res.status(404).json({ "error": "can't create comment" })
+            res.status(404).json({ "error": "can't read comment" })
         } else {
             res.status(200).json({ "message": "ok" })
+
         }
     }
 }
