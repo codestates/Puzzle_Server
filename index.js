@@ -7,6 +7,7 @@ const homeRouter = require('./routes/home')
 const projectRouter = require('./routes/project')
 const commentRouter = require('./routes/comment')
 const puzzleRouter = require('./routes/puzzle')
+const labelRouter = require('./routes/label')
 const morgan = require('morgan')
 const https = require('https');
 const fs = require('fs')
@@ -40,18 +41,18 @@ app.use('/home', homeRouter)
 app.use('/project', projectRouter)
 app.use('/puzzle', puzzleRouter)
 app.use('/comment', commentRouter)
-
+app.use('/label', labelRouter)
 
 https
-.createServer(
+  .createServer(
     {
-        key : key,
-        cert : cert
+      key: key,
+      cert: cert
     },
     app.use('/', (req, res) => {
       res.send('Congrats! You made https server now')
     })
-).
-listen(4000, () => {
-  console.log('server start...')
-});
+  ).
+  listen(4000, () => {
+    console.log('server start...')
+  });
