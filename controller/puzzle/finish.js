@@ -1,63 +1,76 @@
 const {
   isAuthorized
 } = require('../tokenFunctions')
-const { puzzle, project, userPuzzle } = require('../../models')
+const { puzzle, userPuzzle, project, calendar } = require('../../models')
 
 module.exports = async (req, res) => {
-    const verifiedToken = isAuthorized(req)
-    const puzzleId = req.params.puzzleid;
+  const verifiedToken = isAuthorized(req)
+  const puzzleId = req.params.puzzleid;
 
-    if (!verifiedToken) {
-        res.status(401).json({ "error": "not authorized" })
-    }else {
-        const connection = await userPuzzle.findOne({
-          where: {
-            userId: verifiedToken.id,
-            puzzleId: puzzleId
-          }
+
+  if (!verifiedToken) {
+    res.status(401).json({ "error": "not authorized" })
+  } else {
+    const connection = await userPuzzle.findOne({
+      where: {
+        userId: verifiedToken.id,
+        puzzleId: puzzleId
+      }
+    })
+    //퍼즐 작성자만 변경할 수 있음 
+    if (!connection) {
+      res.status(404).json({ "message": "You are not the creator of this puzzle" })
+    } else {
+      //1. 완료상태를 변경할 퍼즐을 찾아서, 완료상태를 변경한다(true면 fase로 false면 true로)
+      const targetPuzzle = await puzzle.findOne({
+        where: { id: puzzleId }
+      })
+      if (!targetPuzzle) {
+        res.status(405).json({ "message": "The puzzle does not exist in the DB" })
+      } else {
+        await puzzle.update({ isFinish: !targetPuzzle.isFinish }, {
+          where: { id: puzzleId },
         })
-        //퍼즐 작성자만 변경할 수 있음 
-        if (!connection) {
-          res.status(404).json({"message": "You are not the creator of this puzzle"})
-        }else {
-          //1. 완료상태를 변경할 퍼즐을 찾아서, 완료상태를 변경한다(true면 fase로 false면 true로)
-          const targetPuzzle = await puzzle.findOne({
-            where: {id: puzzleId}
+        //2. 프로젝트 내의 모든 퍼즐이 완료되었는지 확인
+        //2.1 puzzleNum과 puzzleFinished를 가져온다
+        const puzzleNum = await puzzle.findAll({
+          where: { projectId: targetPuzzle.projectId },
+          raw: true
+        }).length
+
+        const puzzleFinished = await puzzle.findAll({
+          where: { projectId: targetPuzzle.projectId, isFinish: true },
+          raw: true
+        }).length
+
+        // console.log(puzzleNum)
+        // console.log(puzzleFinished)
+        //2.2 프로젝트 내의 모든 퍼즐이 완료됐으면, 프로젝트도 완료상태로 바꾼다
+        if (puzzleNum === puzzleFinished) {
+          await project.update({ isFinish: true }, {
+            where: { id: targetPuzzle.projectId }
           })
-          if (!targetPuzzle) {
-            res.status(405).json({"message": "The puzzle does not exist in the DB"})
-          }else {
-            await puzzle.update({isFinish: !targetPuzzle.isFinish },{
-              where: {id: puzzleId},
-            })
-          //2. 프로젝트 내의 모든 퍼즐이 완료되었는지 확인
-            //2.1 puzzleNum과 puzzleFinished를 가져온다
-            const puzzleNum = await puzzle.findAll({
-              where: {projectId: targetPuzzle.projectId},
-              raw: true
-            }).length
-
-            const puzzleFinished = await puzzle.findAll({
-              where: {projectId: targetPuzzle.projectId, isFinish: true},
-              raw: true
-            }).length
-
-            console.log(puzzleNum)
-            console.log(puzzleFinished)
-            //2.2 프로젝트 내의 모든 퍼즐이 완료됐으면, 프로젝트도 완료상태로 바꾼다
-            if (puzzleNum === puzzleFinished) {
-              await project.upadate({isFinish : true}, {
-                where: {id: targetPuzzle.projectId}
-              })
-            }else {
-              await project.update({isFinish: false}, {
-                where: {id: targetPuzzle.projectId}
-              })
-            }
-          }
+        } else {
+          await project.update({ isFinish: false }, {
+            where: { id: targetPuzzle.projectId }
+          })
         }
-        res.status(202).json({"message": "isFinish modify success!"})
+      }
+      const projectInfo = await project.findOne({
+        raw: true,
+        where: { id: targetPuzzle.projectId }
+      })
+
+      const calendarInfo = await calendar.create({
+        year: new Date().getFullYear(),
+        month: new Date().getMonth() + 1,
+        day: new Date().getDay(),
+        log: `프로젝트 '${projectInfo.title}'의 퍼즐 '${targetPuzzle.title}' 상태 변경(finish:${targetPuzzle.isFinish})`,
+        userId: verifiedToken.id
+      })
     }
+    res.status(202).json({ "message": "isFinish modify success!" })
+  }
 
 }
 

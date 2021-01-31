@@ -4,5 +4,6 @@ module.exports = {
   projectController: require("./project"),
   puzzleController: require("./puzzle"),
   commentController: require("./comment"),
-  labelController: require("./label")
+  labelController: require("./label"),
+  calendarController: require("./calendar")
 }
