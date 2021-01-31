@@ -15,12 +15,19 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         through: "puzzleLabel",
       })
+
+      label.belongsTo(models.project, {
+        foreignKey: {
+          allowNull: false,
+        },
+      })
     }
   };
   label.init({
     name: DataTypes.STRING,
     description: DataTypes.TEXT,
-    color: DataTypes.STRING
+    color: DataTypes.STRING,
+    projectId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'label',
