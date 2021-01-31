@@ -11,7 +11,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-    return queryInterface.bulkInsert('Socials', [
+    return queryInterface.bulkInsert('socials', [
       {
         id: '1',
         name: '홍길동',
