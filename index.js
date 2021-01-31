@@ -8,6 +8,7 @@ const projectRouter = require('./routes/project')
 const commentRouter = require('./routes/comment')
 const puzzleRouter = require('./routes/puzzle')
 const labelRouter = require('./routes/label')
+const calendarRouter = require('./routes/calendar')
 const morgan = require('morgan')
 const https = require('https');
 const fs = require('fs')
@@ -42,6 +43,7 @@ app.use('/project', projectRouter)
 app.use('/puzzle', puzzleRouter)
 app.use('/comment', commentRouter)
 app.use('/label', labelRouter)
+app.use('/calendar', calendarRouter)
 
 https
   .createServer(

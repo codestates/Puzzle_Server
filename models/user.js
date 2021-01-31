@@ -40,7 +40,12 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       })
-
+      user.hasMany(models.calendar, {
+        onDelete: 'CASCADE',
+        foreignKey: {
+          allowNull: false
+        }
+      })
     }
   };
   user.init({
