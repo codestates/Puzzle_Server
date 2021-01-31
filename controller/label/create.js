@@ -16,7 +16,8 @@ module.exports = async (req, res) => {
             const labelInfo = await label.create({
                 name: name,
                 description: description,
-                color: color
+                color: color,
+                projectId: projectId
             })
 
             //라벨은 생성될 뿐 어느 퍼즐과도 연관되지 않는다.

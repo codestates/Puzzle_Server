@@ -11,6 +11,7 @@ module.exports = async (req, res) => {
     } else {
         //라벨 이름으로 검색
         const labelInfo = await label.findAll({
+            raw: true,
             where: { name: name }
         })
         if (!labelInfo) {
