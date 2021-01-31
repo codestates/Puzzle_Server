@@ -28,6 +28,12 @@ module.exports = (sequelize, DataTypes) => {
           allowNull: false
         }
       })
+
+      project.hasMany(models.label, {
+        foreignKey: {
+          allowNull: false,
+        },
+      })
     }
   };
   project.init({
