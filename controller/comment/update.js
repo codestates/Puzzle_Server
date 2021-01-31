@@ -6,14 +6,14 @@ const { comment } = require('../../models')
 module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req)
     const commentId = req.params.id
-    const { description } = req.body
+    const { desc } = req.body
     if (!verifiedToken) {
         res.status(401).json({ "error": "not authorized" })
 
     } else {
         //자신이 작성한 코켄트만 업데이트할 수 있다.
         const commentInfo = await comment.update({
-            description: description
+            description: desc
         }, {
             where: { id: commentId, userId: verifiedToken.id }
         })
