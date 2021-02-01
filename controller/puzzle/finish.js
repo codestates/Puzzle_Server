@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
             console.log(puzzleFinished)
             //2.2 프로젝트 내의 모든 퍼즐이 완료됐으면, 프로젝트도 완료상태로 바꾼다
             if (puzzleNum === puzzleFinished) {
-              await project.upadate({isFinish : true}, {
+              await project.update({isFinish : true}, {
                 where: {id: targetPuzzle.projectId}
               })
             }else {

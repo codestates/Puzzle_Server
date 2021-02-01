@@ -41,7 +41,7 @@ module.exports = async (req, res) => {
             })
 
             //1. 요청에 usercode 배열에 유저코드를 담아서 보냈다면,
-            if (alterUsercodes.length > 0) {
+            if (Array.isArray(alterUsercodes) && alterUsercodes.length > 0) {
                 alterUsercodes.forEach(async (alterUsercode) => {
                     //1.1 그 유저코드를 가진 유저를 찾는다(-> 1.1과 1.2 코드를 findOrCreate로 줄여줄 수도 있다)
                     const addUser = await user.findOne({
@@ -52,7 +52,7 @@ module.exports = async (req, res) => {
                     })
                     if (!addUser) {
                         res.status(404).json({ "error": "There is no user information matching the usercode" })
-                    } else {
+                    }else {
                         //1.2 그 유저코드를 가진 유저를 userPermission 테이블에 등록
                         await userPermission.create({
                             userId: addUser.id,
@@ -60,6 +60,9 @@ module.exports = async (req, res) => {
                         })
                     }
                 })
+                if (!title && !description) {
+                    res.json({"message": "team member updated"})
+                }
             }
             //찾은 특정 프로젝트에 req.body(usercode는 제외)로 받아온 값을 업데이트 한다
             delete req.body.usercode;

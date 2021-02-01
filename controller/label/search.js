@@ -4,7 +4,7 @@ const {
 const { label } = require("../../models")
 
 module.exports = async (req, res) => {
-    const { name } = req.body
+    const { name, projectId } = req.body
     const verifiedToken = isAuthorized(req)
     if (!verifiedToken) {
         res.status(401).json({ "error": "not authorized" })
@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
         //라벨 이름으로 검색
         const labelInfo = await label.findAll({
             raw: true,
-            where: { name: name }
+            where: { name: name, projectId: projectId }
         })
         if (!labelInfo) {
             res.status(404).json({ "error": "can't find label name" })

@@ -8,6 +8,6 @@ labelRouter.get('/read/:id', labelController.id)
 labelRouter.post('/create', labelController.create)
 labelRouter.post('/remove/:id', labelController.remove)
 labelRouter.post('/update/:id', labelController.update)
-labelRouter.get('/search', labelController.search)
+labelRouter.post('/search', labelController.search)
 
 module.exports = labelRouter

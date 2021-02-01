@@ -6,7 +6,7 @@ const { puzzle, userPuzzle, puzzleLabel, userPermission, label } = require('../.
 module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req)
     //labelId: array
-    const {  title, description, puzzleId, labelId,  projectId } = req.body
+    const {  title, description, labelId,  projectId } = req.body
     if (!verifiedToken) {
         res.status(401).json({ "error": "not authorized" })
     } else {
@@ -48,7 +48,6 @@ module.exports = async (req, res) => {
                     title: title,
                     description: description,
                     isFinish: false,
-                    progress: 0
                 }
             })
             if (!created) {
@@ -67,25 +66,34 @@ module.exports = async (req, res) => {
                       //클라이언트에서 labelId를 어떻게 얻는 거지? 
                         //프로젝트 내의 라벨 정보를 받아오는 엔드포인트가 있을 것이다(label/read?)
                       //입력된 labelId가 label 테이블에 정말로 있는지, 우리 프로젝트의 라벨인지 확인은 해야한다
-                    
-                    labelId.map(async (label) => {
+                    labelId.forEach(async (la) => {
                         const confirmLabel = await label.findOne({
-                            where: {id: label, projectId: projectId }
+                            where: {id: la, projectId: projectId }
                         })
 
                         if (!confirmLabel) {
-                            res.status(404).json({"error": "This label does not exist in your project"})
+                            res.status(404).json({"error": `This label does not exist in your project. labelId: ${label}`})
                         }else {
-                            const puzzleLabel = await puzzleLabel.create({
-                                labelId: label,
-                                puzzleId: puzzleInfo.id
+                            const existedLabel = await puzzleLabel.findOne({
+                                where: {puzzleId: puzzleInfo.id, labelId: la}
                             })
+                            if (existedLabel) {
+                                res.status(406).json({"error": "This label has already been added"})
+                            }else {
+                                await puzzleLabel.create({
+                                    labelId: la,
+                                    puzzleId: puzzleInfo.id
+                                })
+    
+                            }
                         } 
                     })
 
                 }//labelId가 입력되지 않았을 때도 퍼즐 자체는 생성되어야 한다 
                 res.status(200).json({
-                    "data": "ok"
+                    "data": "ok",
+                    "particle": puzzleInfo.particle,
+                    "projectId": puzzleInfo.projectId
                 })
             }
         }
