@@ -1,7 +1,7 @@
 const {
     isAuthorized
 } = require('../tokenFunctions')
-const { puzzle, userPuzzle, puzzleLabel, userPermission, label } = require('../../models')
+const { puzzle, userPuzzle, puzzleLabel, userPermission, label, calendar, project } = require('../../models')
 //puzzles테이블, userPuzzle테이블, labels 테이블, PuzzleLabels테이블을 채우고, project와 comment에 연결되야 한다.
 module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req)
@@ -18,10 +18,10 @@ module.exports = async (req, res) => {
             }
         })
         if (!connection) {
-            res.status(405).json({"message": "No project ID or not your project"})
-        }else {
-        //particle 생성기능: puzzles 테이블에 레코드 추가될 때마다 서버에서(클라에서 입력x) particle 생성해서 update
-        //일종의 auto increment
+            res.status(405).json({ "message": "No project ID or not your project" })
+        } else {
+            //particle 생성기능: puzzles 테이블에 레코드 추가될 때마다 서버에서(클라에서 입력x) particle 생성해서 update
+            //일종의 auto increment
             const particles = await puzzle.findAll({
                 raw: true,
                 where: {
@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
                 latestParticle = 0;
             }
 
-        //퍼즐 생성 하나의 프로젝트 안에 같은 퍼즐조각 번호가 없어야한다.
+            //퍼즐 생성 하나의 프로젝트 안에 같은 퍼즐조각 번호가 없어야한다.
             const [puzzleInfo, created] = await puzzle.findOrCreate({
                 where: {
                     particle: latestParticle + 1,
@@ -52,12 +52,12 @@ module.exports = async (req, res) => {
             })
             if (!created) {
                 res.status(403).json({ "error": "this particle is already used in project" })
-            }else {
+            } else {
                 const userPuzzleInfo = await userPuzzle.create({
                     userId: verifiedToken.id,
                     puzzleId: puzzleInfo.id,
                 })
-                
+
                 if (Array.isArray(labelId) && labelId.length > 0) {
                     //배열로 labellId를 입력하고, 그 배열의 길이가 0보다 크다면(요소가 있다면) 이미 존재하는 라벨을 연결한다
                     //usercode 배열과 다르게 중복을 걱정할 필요는 없다 => 있는 걸 가져오는 것일 뿐이기에
@@ -90,6 +90,20 @@ module.exports = async (req, res) => {
                     })
 
                 }//labelId가 입력되지 않았을 때도 퍼즐 자체는 생성되어야 한다 
+
+                // 퍼즐 생성 기록을 캘린더에 저장
+                const projectInfo = await project.findOne({
+                    raw: true,
+                    where: { id: projectId }
+                })
+                const calendarInfo = await calendar.create({
+                    year: new Date().getFullYear(),
+                    month: new Date().getMonth() + 1,
+                    day: new Date().getDay(),
+                    log: `프로젝트 '${projectInfo.title}'에서 퍼즐 '${puzzleInfo.title}'을 생성함.`,
+                    userId: verifiedToken.id
+                })
+
                 res.status(200).json({
                     "data": "ok",
                     "particle": puzzleInfo.particle,
