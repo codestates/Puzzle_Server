@@ -25,7 +25,7 @@ const key = fs.readFileSync("./key.pem", "utf-8")
 
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: ["http://localhost:3000", "https://api.teampuzzle.ga"],
     credentials: true,
     methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
   })
