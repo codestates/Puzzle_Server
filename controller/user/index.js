@@ -1,5 +1,6 @@
 module.exports = {
     login: require('./login'),
+    guestlogin: require('./guestlogin'),
     signup: require('./signup'),
     logout: require('./logout'),
     userinfo: require('./userinfo'),

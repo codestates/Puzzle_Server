@@ -5,6 +5,7 @@ const upload = require('../controller/uploadFunctions/uploadProfile')
 const { isLoggedIn } = require('../controller/middlewares')
 
 usersRouter.post('/login', userController.login)
+usersRouter.post('/guestlogin', userController.guestlogin)
 usersRouter.post('/signup', userController.signup)
 usersRouter.get('/logout', userController.logout)
 usersRouter.get('/userinfo', userController.userinfo)
