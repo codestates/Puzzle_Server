@@ -21,7 +21,6 @@ module.exports = async (req, res) => {
     if (!findUser) {
         res.status(404).json({ "message": "invalid user info" })
     }
-
     const userInfo = await user.findOne({
         raw: true,
         where: {
@@ -29,6 +28,7 @@ module.exports = async (req, res) => {
             password: sha256(password + process.env.SALT)
         }
     })
+
     // console.log(userInfo)
     if (!userInfo) {
         res.status(404).json({ "message": "invalid user info" })
