@@ -16,19 +16,31 @@ module.exports = async (req, res) => {
             attributes: { exclude: ["password"] },
             where: { usercode: usercode }
         })
-        // console.log(invitedUser)
+        console.log(invitedUser)
 
         //userPermiassions 테이블에 userId값을 findorcreate로 저장한다.
-        const [userProject, created] = await userPermission.findOrCreate({
-            where: { userId: invitedUser.id, projectId: projectId }
-        })
-        if (created) {
-            res.status(200).json({
-                "message": "ok"
+        const invitedName = []
+        Promise.all(invitedUser.map(async (el, idx) => {
+            const [userProject, created] = await userPermission.findOrCreate({
+                where: { userId: invitedUser[idx].id, projectId: projectId }//userId 2개면 2번 돈다. userProject에는 userId가 하나씩 두번 들어간다.
             })
-        } else {
-            res.status(404).json({ "error": "it's already invited" })
-        }
+            console.log("123")
+
+            if (created) {
+                invitedName.push(el.name)
+            }
+
+        })).then(datas => {
+            if (invitedName.length !== 0) {
+                res.status(200).json({
+                    "data": invitedName
+                })
+            } else {
+                res.status(404).json({ "error": "it's already invited" })
+            }
+        })
+            .catch(err => console.log(err))
+
     }
 
 }
