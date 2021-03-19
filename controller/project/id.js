@@ -59,9 +59,12 @@ module.exports = async (req, res) => {
                 raw: true,
                 where: { projectId: projectInfo.id }
             })
+            
             const puzzleIds = puzzlesInfo.map(el => { return el.id })
             // console.log(puzzlesInfo)
-
+            //프로젝트 1개-퍼즐 여러개 중의 하나-코멘트 여러개
+            //프로젝트id로 특정 프로젝트 찾고, 그 프로젝트에 속한 퍼즐'들'을 찾을 수 있다
+            //퍼즐 하나에 속한 댓글들 정보를 project.puzzleInfo.comments에 담아야 한다
             //퍼즐의 제작자 userId 정보를 부른다.
             const puzzleWriters = await userPuzzle.findAll({
                 raw: true,
@@ -81,7 +84,7 @@ module.exports = async (req, res) => {
                     }
                 })
             })
-            // console.log(puzzlesInfo)
+            //console.log(puzzlesInfo)
 
             //프로젝트의 퍼즐에 달린 코멘트를 전부 불러온다.
             //puzzleIds를 가져와 전부 입력한다.
@@ -90,16 +93,18 @@ module.exports = async (req, res) => {
                 where: { puzzleId: puzzleIds },
                 include: { model: user, attributes: ["name"] }
             })
-            // console.log(commentInfo)
 
+             console.log(commentInfo)
+
+            
             //puzzlesInfo, userInfo 전체정보를 projectInfo에 입력
             projectInfo["puzzlesInfo"] = puzzlesInfo
             projectInfo["teams"] = usersInfo
-
+            projectInfo["comments"] = commentInfo;
             res.status(200).json({
                 "loginUser": userInfo,
                 "project": projectInfo,
-                "comment": commentInfo
+                /* "comment": commentInfo*/
             })
         }
 
