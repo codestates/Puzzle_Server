@@ -5,7 +5,7 @@ const { project, userPermission, user } = require('../../models')
 
 module.exports = async (req, res) => {
     //usercode: array
-    const { title, description, usercode } = req.body
+    const { title, description, usercode /* imageUrl */ } = req.body
     const verifiedToken = isAuthorized(req);
     if (!verifiedToken) {
         res.status(400).json({ "error" : "can't create new project(jwt)" })

@@ -3,7 +3,10 @@ const {
     generateRefreshToken,
     isAuthorized
 } = require('../tokenFunctions')
-const { user, userPermission, project } = require('../../models')
+const { user, userPermission, project } = require('../../models');
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
+
 
 module.exports = async (req, res) => {
     //토큰확인여부 작성
@@ -38,14 +41,17 @@ module.exports = async (req, res) => {
         const userInvitedProjects = await userPermission.findAll({
             raw: true,
             attributes: ["projectId", "userId"],
-            where: { projectId: projectsId }
+            where: { projectId:  projectsId }
         })//[ { projectId: 1, userId: 1 },{ projectId: 1, userId: 2 },{ projectId: 2, userId: 1 },{ projectId: 2, userId: 2 }]
         // console.log(userInvitedProjects)
 
         //프로젝트 id로 내가 속한 프로젝트를 전부 가져온다.
         const myProjects = await project.findAll({
             raw: true,
-            where: { id: projectsId, title: projectName },
+            where: { 
+                id: projectsId, 
+                title:  {[Op.like]: '%' + projectName + '%'} 
+            },
         })
         // console.log(myProjects)
 

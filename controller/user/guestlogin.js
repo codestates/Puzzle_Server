@@ -9,10 +9,9 @@ const sha256 = require('../lib/SHA256')
 require('dotenv').config()
 
 module.exports = async (req, res) => {
-  // "email": "123@email.com",
+  // "email": "guest@email.com",
   // "password": "1234"
   const { guestEmail, guestPassword  } = req.body
-
   const findUser = await user.findOne({
       where: {
           email: guestEmail,
