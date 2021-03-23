@@ -59,6 +59,30 @@ module.exports = async (req, res) => {
                     puzzleId: puzzleInfo.id,
                 })
 
+                if (userPuzzleInfo) {
+                    res.status(200).json({
+                        "data": "ok"
+                    })
+/* 
+                    const projectInfo = await project.findOne({
+                        raw: true,
+                        where: { id: projectId }
+                    })
+                    const calendarInfo = await calendar.create({
+                        year: new Date().getFullYear(),
+                        month: new Date().getMonth() + 1,
+                        day: new Date().getDay(),
+                        log: `프로젝트 '${projectInfo.title}'에서 퍼즐 '${puzzleInfo.title}'을 생성함.`,
+                        userId: verifiedToken.id
+                    })
+                    if (calendarInfo) {
+                        res.status(200).json({
+                            "data": "ok"
+                        })
+                    } */
+                }
+
+/* 
                 if (Array.isArray(labelId) && labelId.length > 0) {
                     //배열로 labellId를 입력하고, 그 배열의 길이가 0보다 크다면(요소가 있다면) 이미 존재하는 라벨을 연결한다
                     //usercode 배열과 다르게 중복을 걱정할 필요는 없다 => 있는 걸 가져오는 것일 뿐이기에
@@ -84,26 +108,9 @@ module.exports = async (req, res) => {
                     })
 
                 }
-                //labelId가 입력되지 않았을 때도 퍼즐 자체는 생성되어야 한다 
+ */                //labelId가 입력되지 않았을 때도 퍼즐 자체는 생성되어야 한다 
 
                 // 퍼즐 생성 기록을 캘린더에 저장
-                const projectInfo = await project.findOne({
-                    raw: true,
-                    where: { id: projectId }
-                })
-                const calendarInfo = await calendar.create({
-                    year: new Date().getFullYear(),
-                    month: new Date().getMonth() + 1,
-                    day: new Date().getDay(),
-                    log: `프로젝트 '${projectInfo.title}'에서 퍼즐 '${puzzleInfo.title}'을 생성함.`,
-                    userId: verifiedToken.id
-                })
-                if (calendarInfo) {
-                    res.status(200).json({
-                        "data": "ok"
-                    })
-    
-                }
             }
         }
     }
