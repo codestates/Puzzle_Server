@@ -7,10 +7,8 @@ module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req);
     if (!verifiedToken) {
         res.status(404).json( {"message": "invalid token"})
-    }else {
+    }else {  
         res.status(202).send({"url": req.file.location})
-        
-
     }
 }
 
