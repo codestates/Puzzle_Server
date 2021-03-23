@@ -5,7 +5,7 @@ const { label, userPermission, puzzleLabel } = require("../../models")
 
 module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req)
-    const { name, description, color, projectId } = req.body
+    const { name, description, color, projectId } = req.body  //projectId가 아니라 puzzleId를 받아야 한다
     if (!verifiedToken) {
         res.status(401).json({ "error": "not authorized" })
     } else {

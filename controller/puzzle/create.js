@@ -6,7 +6,7 @@ const { puzzle, userPuzzle, puzzleLabel, userPermission, label, calendar, projec
 module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req)
     //labelId: array
-    const { title, description, labelId, projectId } = req.body
+    const { title, description, labelId, projectId } = req.body //
     if (!verifiedToken) {
         res.status(401).json({ "error": "not authorized" })
     } else {
@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
                     puzzleId: puzzleInfo.id,
                 })
 
-                if (Array.isArray(labelId) && labelId.length > 0) {
+ /*                if (Array.isArray(labelId) && labelId.length > 0) {
                     //배열로 labellId를 입력하고, 그 배열의 길이가 0보다 크다면(요소가 있다면) 이미 존재하는 라벨을 연결한다
                     //usercode 배열과 다르게 중복을 걱정할 필요는 없다 => 있는 걸 가져오는 것일 뿐이기에
                     //labels(where:projectId)에 있는 라벨들 중 하나를 가져오는 것
@@ -83,7 +83,8 @@ module.exports = async (req, res) => {
                         }
                     })
 
-                }//labelId가 입력되지 않았을 때도 퍼즐 자체는 생성되어야 한다 
+                } */
+                //labelId가 입력되지 않았을 때도 퍼즐 자체는 생성되어야 한다 
 
                 // 퍼즐 생성 기록을 캘린더에 저장
                 const projectInfo = await project.findOne({
