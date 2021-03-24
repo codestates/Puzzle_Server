@@ -32,35 +32,39 @@ module.exports = async (req, res) => {
                     id: id
                 }
             })
-            const reqUsercode = reqUser.usercode;
-            const alterUsercodes = usercode.filter(el => {
-                if (el === reqUsercode) {
-                    return false;
-                }
+            if (usercode) {
+                const reqUsercode = reqUser.usercode;
+                const alterUsercodes = usercode.filter(el => {
+                    if (el === reqUsercode) {
+                        return false;
+                    }
                 return true;
-            })
-
-            //1. 요청에 usercode 배열에 유저코드를 담아서 보냈다면,
-            if (alterUsercodes.length > 0) {
-                alterUsercodes.forEach(async (alterUsercode) => {
-                    //1.1 그 유저코드를 가진 유저를 찾는다(-> 1.1과 1.2 코드를 findOrCreate로 줄여줄 수도 있다)
-                    const addUser = await user.findOne({
-                        raw: true,
-                        where: {
-                            usercode: alterUsercode
+                })
+                
+                if (alterUsercodes.length > 0) {
+                    alterUsercodes.forEach(async (alterUsercode) => {
+                        //1.1 그 유저코드를 가진 유저를 찾는다(-> 1.1과 1.2 코드를 findOrCreate로 줄여줄 수도 있다)
+                        const addUser = await user.findOne({
+                            raw: true,
+                            where: {
+                                usercode: alterUsercode
+                            }
+                        })
+                        if (!addUser) {
+                            res.status(404).json({ "error": "There is no user information matching the usercode" })
+                        } else {
+                            //1.2 그 유저코드를 가진 유저를 userPermission 테이블에 등록
+                            await userPermission.create({
+                                userId: addUser.id,
+                                projectId: projectId
+                            })
                         }
                     })
-                    if (!addUser) {
-                        res.status(404).json({ "error": "There is no user information matching the usercode" })
-                    } else {
-                        //1.2 그 유저코드를 가진 유저를 userPermission 테이블에 등록
-                        await userPermission.create({
-                            userId: addUser.id,
-                            projectId: projectId
-                        })
-                    }
-                })
+                }
             }
+
+            //1. 요청에 usercode 배열에 유저코드를 담아서 보냈다면,
+
             //찾은 특정 프로젝트에 req.body(usercode는 제외)로 받아온 값을 업데이트 한다
             delete req.body.usercode;
             const update = await project.update(req.body, {
@@ -68,6 +72,7 @@ module.exports = async (req, res) => {
                     id: targetProject.projectId
                 }
             })
+            console.log('line 74', update)
             //update = 성공하면 [0] 실패하면 [1]을 가진다.
             if (!update[0]) {
                 res.status(403).json({ "error": "update fail" })
@@ -82,4 +87,4 @@ module.exports = async (req, res) => {
 }
 
 //최종적인 목표: project 테이블에 req.body에 담긴 내용을 업데이트 해야 한다
-//req.body: title, descripsion, puzzlNum 
+//req.body: title, descripsion, puzzlNum, coordinates 
