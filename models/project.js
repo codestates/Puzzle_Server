@@ -41,6 +41,7 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     isFinish: DataTypes.BOOLEAN,
     projectImg: DataTypes.STRING,
+    coordinates: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'project',
