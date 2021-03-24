@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
     if (!verifiedToken) {
         res.status(404).json({ "err": "cant't authorized token(jwt)" })
     } else {
-        const { title, description, isFinish, usercode } = req.body;  //usercode: array
+        const { title, description, isFinish, usercode, coordinates } = req.body;  //usercode: array
         const { id } = verifiedToken;//[1]
         const projectId = req.params.id;
 
