@@ -5,7 +5,7 @@ const { project, userPermission, user } = require('../../models')
 
 module.exports = async (req, res) => {
     //usercode: array
-    const { title, description, usercode, imageUrl } = req.body
+    const { title, description, usercode, imageUrl, coordinates } = req.body
     const verifiedToken = isAuthorized(req);
     if (!verifiedToken) {
         res.status(400).json({ "error" : "can't create new project(jwt)" })
@@ -25,6 +25,7 @@ module.exports = async (req, res) => {
             description: description,
             isFinish: false,
             projectImg: imageUrl,
+            coordinates: coordinates
             /* 컬럼 추가 필요: coordinates 좌표값을 갖고 있는 숫자문자열 */
         })
         //2. 요청한 유저를 userPermission 테이블에 등록
