@@ -27,6 +27,25 @@ module.exports = async (req, res) => {
             const puzzleInfo = await puzzle.findOne({
                 where: { id: puzzleId }
             })
+            const puzzleNum = await puzzle.findAll({
+                where: { projectId: targetPuzzle.projectId },
+                raw: true
+            }).length
+
+            const puzzleFinished = await puzzle.findAll({
+                where: { projectId: targetPuzzle.projectId, isFinish: true },
+                raw: true
+            }).length
+
+            if (puzzleNum === puzzleFinished) {
+                await project.update({ isFinish: true }, {
+                    where: { id: puzzleInfo.projectId }
+                })
+            } else {
+                await project.update({ isFinish: false }, {
+                where: { id: puzzleInfo.projectId }
+                })
+            }
             const update = await puzzle.update(req.body, {
                 where: { id: puzzleId }
             })
