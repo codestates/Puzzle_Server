@@ -29,14 +29,10 @@ module.exports = async (req, res) => {
                 where: { id: puzzleId }
             })
             //update = 성공하면 배열 [0], 실패하면 배열 [1]값을 가진다.
-            if (!update[0]) {
+            if (!update) {
                 res.status(403).json({ "error": "update fail" })
             } else {
 /* 
-                const projectInfo = await project.findOne({
-                    raw: true,
-                    where: { id: projectId }
-                })
                 const puzzleInfo2 = await puzzle.findOne({
                     where: { id: puzzleId }
                 })
@@ -51,6 +47,11 @@ module.exports = async (req, res) => {
                     userId: verifiedToken.id
                 })
   */               
+
+                const projectInfo = await project.findOne({
+                    raw: true,
+                    where: { id: projectId }
+                })
 
                 const puzzleInfo = await puzzle.findOne({
                     where: { id: puzzleId }
@@ -75,7 +76,7 @@ module.exports = async (req, res) => {
                     where: { id: puzzleInfo.projectId }
                     })
                 }
-                res.status(202).json({ "message": "ok" })
+                res.status(202).json({ "message": "ok", "isFinish": projectInfo.isFinish })
             }
         }
 
