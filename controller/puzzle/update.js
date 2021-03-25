@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req)
     //라벨 crud 하는 작업 필요
     const puzzleId = req.params.id
-    const { title, description } = req.body
+    const { title, description, isFinish } = req.body
     const projectId = req.body.projectId
     delete req.body.projectId
     // console.log(req.body.projectId)
@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
             if (!update[0]) {
                 res.status(403).json({ "error": "update fail" })
             } else {
-
+/* 
                 const projectInfo = await project.findOne({
                     raw: true,
                     where: { id: projectId }
@@ -52,6 +52,7 @@ module.exports = async (req, res) => {
                     title:${puzzleInfo2.title}, description:${puzzleInfo2.description}`,
                     userId: verifiedToken.id
                 })
+  */               
                 res.status(202).json({ "message": "ok" })
             }
         }
