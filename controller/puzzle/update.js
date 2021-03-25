@@ -29,7 +29,7 @@ module.exports = async (req, res) => {
                 where: { id: puzzleId }
             })
             //update = 성공하면 배열 [0], 실패하면 배열 [1]값을 가진다.
-            if (!update[1]) {
+            if (update[1]) {
                 res.status(403).json({ "error": "update fail" })
             } else {
 /* 
