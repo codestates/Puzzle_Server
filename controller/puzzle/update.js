@@ -27,13 +27,14 @@ module.exports = async (req, res) => {
             const puzzleInfo = await puzzle.findOne({
                 where: { id: puzzleId }
             })
+            
             const puzzleNum = await puzzle.findAll({
-                where: { projectId: targetPuzzle.projectId },
+                where: { projectId: puzzleInfo.projectId },
                 raw: true
             }).length
 
             const puzzleFinished = await puzzle.findAll({
-                where: { projectId: targetPuzzle.projectId, isFinish: true },
+                where: { projectId: puzzleInfo.projectId, isFinish: true },
                 raw: true
             }).length
 
