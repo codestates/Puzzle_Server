@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req)
     //라벨 crud 하는 작업 필요
     const puzzleId = req.params.id
-    const { title, description, isFinish } = req.body
+    const { title, description } = req.body
     const projectId = req.body.projectId
     delete req.body.projectId
     // console.log(req.body.projectId)
@@ -24,7 +24,9 @@ module.exports = async (req, res) => {
         if (!connection) {
             res.status(404).json({ "message": "You are not the creator of this puzzle" })
         } else {
-    
+            const puzzleInfo = await puzzle.findOne({
+                where: { id: puzzleId }
+            })
             const update = await puzzle.update(req.body, {
                 where: { id: puzzleId }
             })
@@ -32,7 +34,11 @@ module.exports = async (req, res) => {
             if (!update[0]) {
                 res.status(403).json({ "error": "update fail" })
             } else {
-/* 
+
+                const projectInfo = await project.findOne({
+                    raw: true,
+                    where: { id: projectId }
+                })
                 const puzzleInfo2 = await puzzle.findOne({
                     where: { id: puzzleId }
                 })
@@ -46,37 +52,7 @@ module.exports = async (req, res) => {
                     title:${puzzleInfo2.title}, description:${puzzleInfo2.description}`,
                     userId: verifiedToken.id
                 })
-  */               
-
-                const projectInfo = await project.findOne({
-                    raw: true,
-                    where: { id: projectId }
-                })
-
-                const puzzleInfo = await puzzle.findOne({
-                    where: { id: puzzleId }
-                })
-
-                const puzzleNum = await puzzle.findAll({
-                    where: { projectId: puzzleInfo.projectId },
-                    raw: true
-                }).length
-
-                const puzzleFinished = await puzzle.findAll({
-                    where: { projectId: puzzleInfo.projectId, isFinish: true },
-                    raw: true
-                }).length
-
-                if (puzzleNum === puzzleFinished) {
-                    await project.update({ isFinish: true }, {
-                        where: { id: puzzleInfo.projectId }
-                    })
-                } else {
-                    await project.update({ isFinish: false }, {
-                    where: { id: puzzleInfo.projectId }
-                    })
-                }
-                res.status(202).json({ "message": "ok", "isFinish": projectInfo.isFinish })
+                res.status(202).json({ "message": "ok" })
             }
         }
 
