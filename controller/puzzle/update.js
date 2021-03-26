@@ -24,9 +24,6 @@ module.exports = async (req, res) => {
         if (!connection) {
             res.status(404).json({ "message": "You are not the creator of this puzzle" })
         } else {
-            const puzzleInfo = await puzzle.findOne({
-                where: { id: puzzleId }
-            })
             const update = await puzzle.update(req.body, {
                 where: { id: puzzleId }
             })
@@ -35,26 +32,56 @@ module.exports = async (req, res) => {
                 res.status(403).json({ "error": "update fail" })
             } else {
 
+/*                 
                 const projectInfo = await project.findOne({
                     raw: true,
                     where: { id: projectId }
                 })
-                const puzzleInfo2 = await puzzle.findOne({
+ */
+                const puzzleInfo = await puzzle.findOne({
                     where: { id: puzzleId }
                 })
+                if (!puzzleInfo) {
+                    res.status(404).json({ "message": "You are not the creator of this puzzle" })
+                }else {
+                    const puzzleNum = await puzzle.findAll({
+                        where: { projectId: puzzleInfo.projectId },
+                        raw: true
+                    })
+                    
+                    const puzzleFinished = await puzzle.findAll({
+                        where: { projectId: puzzleInfo.projectId, isFinish: true },
+                        raw: true
+                    })
+                    console.log('퍼즐개수')
+                    console.log(puzzleNum.length)
+                    console.log(puzzleFinished.length)
+
+                    if (puzzleNum.length === puzzleFinished.length) {
+                        await project.update({ isFinish: true }, {
+                            where: { id: puzzleInfo.projectId }
+                        })
+                    } else {
+                        await project.update({ isFinish: false }, {
+                            where: { id: puzzleInfo.projectId }
+                        })
+                    }
+                    res.status(202).json({ "message": "ok" })
+                }
+            }
+        }
+
+    }
+}
 
 
-                const calendarInfo = await calendar.create({
+
+/*                  const calendarInfo = await calendar.create({
                     year: new Date().getFullYear(),
                     month: new Date().getMonth() + 1,
                     day: new Date().getDay(),
                     log: `프로젝트 '${projectInfo.title}'에서 퍼즐 '${puzzleInfo.title}'내용을 수정함.
                     title:${puzzleInfo2.title}, description:${puzzleInfo2.description}`,
                     userId: verifiedToken.id
-                })
-                res.status(202).json({ "message": "ok" })
-            }
-        }
-
-    }
-}
+                }) 
+*/

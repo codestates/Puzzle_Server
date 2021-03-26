@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
         // console.log(puzzleNum)
         // console.log(puzzleFinished)
         //2.2 프로젝트 내의 모든 퍼즐이 완료됐으면, 프로젝트도 완료상태로 바꾼다
-        if (puzzleNum === puzzleFinished) {
+        if (puzzleNum.length === puzzleFinished.length) {
           await project.update({ isFinish: true }, {
             where: { id: targetPuzzle.projectId }
           })
@@ -56,18 +56,18 @@ module.exports = async (req, res) => {
           })
         }
       }
-      const projectInfo = await project.findOne({
+/*      const projectInfo = await project.findOne({
         raw: true,
         where: { id: targetPuzzle.projectId }
       })
 
-      const calendarInfo = await calendar.create({
+        const calendarInfo = await calendar.create({
         year: new Date().getFullYear(),
         month: new Date().getMonth() + 1,
         day: new Date().getDay(),
         log: `프로젝트 '${projectInfo.title}'의 퍼즐 '${targetPuzzle.title}' 상태 변경(finish:${targetPuzzle.isFinish})`,
         userId: verifiedToken.id
-      })
+      }) */
     }
     res.status(202).json({ "message": "isFinish modify success!" })
   }
