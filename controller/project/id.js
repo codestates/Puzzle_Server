@@ -94,7 +94,7 @@ module.exports = async (req, res) => {
                 include: { model: user, attributes: ["name"] }
             })
 
-             console.log(commentInfo)
+            console.log(commentInfo)
 
             
             //puzzlesInfo, userInfo 전체정보를 projectInfo에 입력

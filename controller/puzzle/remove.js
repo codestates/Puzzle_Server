@@ -1,7 +1,7 @@
 const {
     isAuthorized
 } = require('../tokenFunctions')
-const { puzzle, puzzleLabel, userPuzzle, comment, project, calendar } = require('../../models')
+const { puzzle, puzzleLabel, userPuzzle, comment, project /* calendar */ } = require('../../models')
 
 module.exports = async (req, res) => {
     const verifiedToken = isAuthorized(req)
@@ -34,14 +34,14 @@ module.exports = async (req, res) => {
         })
 
 
-        const calendarInfo = await calendar.create({
+/*         const calendarInfo = await calendar.create({
             year: new Date().getFullYear(),
             month: new Date().getMonth() + 1,
             day: new Date().getDay(),
             log: `프로젝트 '${projectInfo.title}'에서 퍼즐 '${puzzleInfo.title}'을 제거함.`,
             userId: verifiedToken.id
         })
-
+ */
         res.status(200).json({ "message": "ok" })
     }
 }
