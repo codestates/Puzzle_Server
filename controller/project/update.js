@@ -10,8 +10,8 @@ module.exports = async (req, res) => {
     if (!verifiedToken) {
         res.status(404).json({ "err": "cant't authorized token(jwt)" })
     } else {
-        const { title, description, isFinish, usercode, coordinates, imageUrl } = req.body;  //usercode: array
-        const { id } = verifiedToken;//[1]
+        const { title, description, isFinish, usercode, coordinates, projectImg } = req.body;  //usercode: array
+        const { id } = verifiedToken;//[1]  imageUrl
         const projectId = req.params.id;
 
         //요청한 '유저'의 '특정 프로젝트'를 찾는다
@@ -67,11 +67,7 @@ module.exports = async (req, res) => {
 
             //찾은 특정 프로젝트에 req.body(usercode는 제외)로 받아온 값을 업데이트 한다
             delete req.body.usercode;
-            const update = await project.update({
-                title: title,
-                description: description,
-                projectImg: imageUrl,
-            }, {
+            const update = await project.update(req.body, {
                 where: {
                     id: targetProject.projectId
                 }
