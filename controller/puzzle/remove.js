@@ -12,10 +12,7 @@ module.exports = async (req, res) => {
 
     } else {
         //puzzle, puzzleLabel, userPuzzle, comment도 지워야 한다.
-        const projectInfo = await project.findOne({
-            raw: true,
-            where: { id: projectId }
-        })
+
         const puzzleInfo = await puzzle.findOne({
             where: { id: puzzleId }
         })
@@ -33,8 +30,13 @@ module.exports = async (req, res) => {
             where: { id: puzzleId }
         })
 
-
-/*         const calendarInfo = await calendar.create({
+        
+/*
+        const projectInfo = await project.findOne({
+            raw: true,
+            where: { id: projectId }
+        })
+        const calendarInfo = await calendar.create({
             year: new Date().getFullYear(),
             month: new Date().getMonth() + 1,
             day: new Date().getDay(),
