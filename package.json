@@ -19,12 +19,12 @@
   "homepage": "https://github.com/kys88/Puzzle_Server#readme",
   "devDependencies": {
     "moment": "^2.29.1",
-    "moment-timezone": "^0.5.32",
+    "moment-timezone": "^0.5.33",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.7"
   },
   "dependencies": {
-    "aws-sdk": "^2.829.0",
+    "aws-sdk": "^2.885.0",
     "axios": "^0.21.0",
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.5",
@@ -37,7 +37,7 @@
     "multer-s3": "^2.9.0",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
-    "sequelize": "^6.3.5",
+    "sequelize": "^6.6.2",
     "sequelize-cli": "^6.2.0"
   }
 }
