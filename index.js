@@ -33,7 +33,7 @@ app.use(
 
 app.use(morgan('dev'))
 app.use(cookieParser());
-app.use(bodyParser.json())
+app.use(express.json())
 //라우팅 경로
 //users, home, project, comment, puzzle 
 
