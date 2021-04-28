@@ -37,7 +37,7 @@ module.exports = async (req, res) => {
                     }
                 })
             }
-            //2. 해당 project 삭제
+            //2. 해당 project 삭제(+ 프로젝트의 퍼즐들과 댓글들도 삭제)
             await project.destroy({
                 where: {
                     id: projectId
@@ -45,6 +45,7 @@ module.exports = async (req, res) => {
             })
         } else {
             //팀에 인원이 1명 이상인 경우(->프로젝트 탈퇴)
+            //지워야 할 것들: 해당 프로젝트 내에서, 해당 사용자가 작성한 퍼즐, 댓글
             const targetProject = await userPermission.findOne({ //userPermission에서 해당 프로젝트의 내 정보를 찾는다
                 where: {
                     projectId: projectId,
